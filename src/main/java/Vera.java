@@ -1,11 +1,11 @@
 import java.util.Scanner;
 
 public class Vera{
-    private static final String line = "_________________________________________________";
+    private static final String line = "  ______________________________________________________";
 
     public static void main(String[] args) {
-        String greetings = "Hello! I'm Vera\nWhat can I do for you?";
-        String bye = "Bye. Hope to see you again soon!";
+        String greetings = "  Hello! I'm Vera\n  What can I do for you?";
+        String bye = "  Bye. Hope to see you again soon!";
 
         Scanner sc = new Scanner(System.in);
 
@@ -17,7 +17,7 @@ public class Vera{
         //echo part
         String s = sc.nextLine();
         while (!s.equals("bye")) {
-            System.out.println(s);
+            System.out.println("  " + s);
             System.out.println(line);
             s = sc.nextLine();
         }
