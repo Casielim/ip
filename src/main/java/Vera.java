@@ -6,6 +6,20 @@ public class Vera{
     private static final String line = "  ______________________________________________________";
     private static List<String> list = new ArrayList<>();
 
+    private static void echo(String s) {
+        System.out.println("  " + s);
+        list.add(s);
+        System.out.println(line);
+    }
+
+    private static void showlist(List ls) {
+        for (int i = 0; i < ls.size(); i++) {
+            int num = i + 1;
+            System.out.println("  " + num + ". " + ls.get(i));
+        }
+        System.out.println(line);
+    }
+
     public static void main(String[] args) {
         String greetings = "  Hello! I'm Vera\n  What can I do for you?";
         String bye = "  Bye. Hope to see you again soon!";
@@ -19,10 +33,18 @@ public class Vera{
 
         //echo part
         String s = sc.nextLine();
-        while (!s.equals("bye")) {
-            System.out.println("  " + s);
-            list.add(s);
-            System.out.println(line);
+        while (true) {
+            if (s.equals("bye")) {
+                break;
+            }
+
+            //Showing list 
+            if (s.equals("list")) {
+                showlist(list);
+                s = sc.nextLine();
+                continue;
+            }
+            echo(s);
             s = sc.nextLine();
         }
 
