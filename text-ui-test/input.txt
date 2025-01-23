@@ -7,6 +7,9 @@ list
 mark 1
 mark 4
 mark 5
+mark 10
 unmark 5
 list
+delete 3
+delete 10
 bye
