@@ -7,7 +7,7 @@ public class Vera{
     private static List<String> list = new ArrayList<>();
 
     private static void echo(String s) {
-        System.out.println("  " + s);
+        System.out.println("  added:" + s);
         list.add(s);
         System.out.println(line);
     }
