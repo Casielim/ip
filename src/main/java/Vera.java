@@ -75,6 +75,14 @@ public class Vera{
         if (part[0].equals("mark")) {
             try {
                 int i = Integer.parseInt(part[1]);
+                try {
+                    checkValidIndex(i);
+                } catch (VeraException e) {
+                    System.out.println(e.getMessage());
+                    System.out.println(line);
+                    return true;
+                }
+
                 Task t = list.get(i - 1);
                 t.markFeature();
                 System.out.println(line);
@@ -95,6 +103,14 @@ public class Vera{
         if (part[0].equals("unmark")) {
             try {
                 int i = Integer.parseInt(part[1]);
+                try {
+                    checkValidIndex(i);
+                } catch (VeraException e) {
+                    System.out.println(e.getMessage());
+                    System.out.println(line);
+                    return true;
+                }
+
                 Task t = list.get(i - 1);
                 t.unmarkFeature();
                 System.out.println(line);
