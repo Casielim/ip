@@ -106,6 +106,44 @@ public class Vera{
         return false;
     }
 
+    private static boolean isDeleteInteger(String s) {
+        String[] part = s.split(" ");
+        if (part.length != 2) {
+            return false;
+        }
+
+        if (part[0].equals("delete")) {
+            try {
+                int i = Integer.parseInt(part[1]);
+                try {
+                    checkValidIndex(i);
+                } catch (VeraException e) {
+                    System.out.println(e.getMessage());
+                    System.out.println(line);
+                    return true;
+                }
+
+                int index = i - 1;
+                Task task = list .get(index);
+                System.out.println(String.format("  Noted. I've removed this task:\n   %s\n  Now you have %d tasks in the list.",
+                        task, list.size() - 1));
+                list.remove(index);
+
+                System.out.println(line);
+                return true;
+            } catch (NumberFormatException e){
+                return false;
+            }
+        }
+        return false;
+    }
+
+    private static void checkValidIndex(int num) throws VeraException {
+        if (num > list.size()) {
+            throw new VeraException(String.format("  You can't do this. You have only %d tasks now.", list.size()));
+        }
+    }
+
     public static void main(String[] args) {
         String greetings = "  Hello! I'm Vera\n  What can I do for you?";
         String bye = "  Bye. Hope to see you again soon!";
@@ -140,6 +178,12 @@ public class Vera{
             //unmark command should be mark + an int
             //unmark + string should be a task eg. unmark things
             if (isUnmarkInteger(s)) {
+                s = sc.nextLine();
+                continue;
+            }
+
+            //Delete task
+            if (isDeleteInteger(s)) {
                 s = sc.nextLine();
                 continue;
             }
