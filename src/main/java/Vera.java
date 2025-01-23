@@ -3,14 +3,18 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Vera{
-    private static final String line = "  ______________________________________________________";
+    private static final String line = "  ________________________________________________________________________";
     private static List<Task> list = new ArrayList<>();
 
-    private static void addTask(String s) {
+    private static void addTask(String s) throws VeraException {
         String[] part = s.split(" ",2);
         String first = part[0];
         switch (first) {
             case "todo":
+                if (part.length < 2) {
+                    throw new VeraException("Please add description to your task!");
+                }
+
                 Task td = new Todo(part[1]);
                 list.add(td);
                 System.out.println(addTaskResponse(td));
@@ -18,6 +22,10 @@ public class Vera{
                 break;
 
             case "deadline":
+                if (part.length < 2) {
+                    throw new VeraException("Please add description to your task!");
+                }
+
                 String[] partDL = part[1].split("/by");
                 Task dl = new Deadline(partDL[0], partDL[1]);
                 list.add(dl);
@@ -26,6 +34,10 @@ public class Vera{
                 break;
 
             case "event":
+                if (part.length < 2) {
+                    throw new VeraException("Please add description to your task!");
+                }
+
                 String[] partEV = part[1].split("/");
                 String from = partEV[1].split(" ", 2)[1];
                 String to = partEV[2].split(" ", 2)[1];
@@ -34,6 +46,9 @@ public class Vera{
                 System.out.println(addTaskResponse(ev));
                 System.out.println(line);
                 break;
+
+            default:
+                throw new VeraException("I'm sorry, I can't get you, please try with command + description");
         }
     }
 
@@ -129,8 +144,14 @@ public class Vera{
                 continue;
             }
 
-            //adding task to list
-            addTask(s);
+            //adding task to list and catch exception
+            try {
+                addTask(s);
+            } catch (VeraException e) {
+                System.out.println("  Error: " + e.getMessage());
+                System.out.println(line);
+            }
+
             s = sc.nextLine();
         }
 
