@@ -6,9 +6,40 @@ public class Vera{
     private static final String line = "  ______________________________________________________";
     private static List<Task> list = new ArrayList<>();
 
-    private static void echo(String s) {
-        System.out.println("  added: " + s);
-        System.out.println(line);
+    private static void addTask(String s) {
+        String[] part = s.split(" ",2);
+        String first = part[0];
+        switch (first) {
+            case "todo":
+                Task td = new Todo(part[1]);
+                list.add(td);
+                System.out.println(addTaskResponse(td));
+                System.out.println(line);
+                break;
+
+            case "deadline":
+                String[] partDL = part[1].split("/by");
+                Task dl = new Deadline(partDL[0], partDL[1]);
+                list.add(dl);
+                System.out.println(addTaskResponse(dl));
+                System.out.println(line);
+                break;
+
+            case "event":
+                String[] partEV = part[1].split("/");
+                String from = partEV[1].split(" ", 2)[1];
+                String to = partEV[2].split(" ", 2)[1];
+                Task ev = new Event(partEV[0], from, to);
+                list.add(ev);
+                System.out.println(addTaskResponse(ev));
+                System.out.println(line);
+                break;
+        }
+    }
+
+    private static String addTaskResponse(Task task) {
+        return String.format("  Got it. I've added this task:\n   %s\n  Now you have %d tasks in the list.",
+                task, list.size());
     }
 
     private static void showlist(List ls) {
@@ -71,7 +102,6 @@ public class Vera{
         System.out.println(greetings);
         System.out.println(line);
 
-        //echo part
         String s = sc.nextLine();
         while (true) {
             if (s.equals("bye")) {
@@ -99,9 +129,8 @@ public class Vera{
                 continue;
             }
 
-            Task task = new Task(s);
-            list.add(task);
-            echo(s);
+            //adding task to list
+            addTask(s);
             s = sc.nextLine();
         }
 
