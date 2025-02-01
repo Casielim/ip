@@ -28,11 +28,11 @@ public class Storage {
         }
     }
 
-    public void saveToFile(List<Task> tasks) {
+    public void saveToFile(TaskList tasks) {
         try {
             checkFile();
             FileWriter fw = new FileWriter(FILE_PATH);
-            for (Task task : tasks) {
+            for (Task task : tasks.getList()) {
                 fw.write(task.toFileString() + "\n");
             }
             fw.close();
@@ -52,7 +52,7 @@ public class Storage {
         }
     }
 
-    public List<Task> loadFileContent() {
+    public List<Task> loadFileContent() throws VeraException {
         List<Task> list = new ArrayList<>();
         try {
             checkFile();
@@ -67,7 +67,7 @@ public class Storage {
             }
             sc.close();
         } catch (FileNotFoundException e) {
-            System.out.println("Error file not found :" + e.getMessage());
+            throw new VeraException("file not found");
         }
         return list;
     }

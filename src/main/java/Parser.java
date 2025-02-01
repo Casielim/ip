@@ -1,6 +1,5 @@
 public class Parser {
     public Parser() {
-
     }
 
     public static Task convertTextToTask(String taskText) throws IllegalArgumentException {

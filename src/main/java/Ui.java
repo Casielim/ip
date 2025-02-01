@@ -28,4 +28,8 @@ public class Ui {
         System.out.println(LINE);
     }
 
+    public void showError(String msg) {
+        System.out.println("  Error: " + msg);
+    }
+
 }
