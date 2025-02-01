@@ -60,7 +60,7 @@ public class Storage {
             while (sc.hasNextLine()) {
                 String s = sc.nextLine();
                 try {
-                    list.add(Vera.convertTextToTask(s));
+                    list.add(Parser.convertTextToTask(s));
                 } catch (IllegalArgumentException e) {
                     System.out.println(e.getMessage());
                 }
