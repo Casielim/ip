@@ -153,7 +153,7 @@ public class TaskList {
                 }
 
                 int index = i - 1;
-                Task task = list .get(index);
+                Task task = list.get(index);
                 System.out.println(String.format("  Noted. I've removed this task:\n   %s\n  Now you have %d tasks in the list.",
                         task, list.size() - 1));
                 list.remove(index);
@@ -176,7 +176,7 @@ public class TaskList {
     public void markTask(int index) {
         try {
             checkValidIndex(index);
-            list.get(index).markFeature();
+            getTask(index).markFeature();
             ui.drawLine();
         } catch (VeraException e) {
             ui.showError(e.getMessage());
@@ -187,7 +187,7 @@ public class TaskList {
     public void unmarkTask(int index) {
         try {
             checkValidIndex(index);
-            list.get(index).unmarkFeature();
+            getTask(index).unmarkFeature();
             ui.drawLine();
         } catch (VeraException e) {
             ui.showError(e.getMessage());
@@ -200,7 +200,7 @@ public class TaskList {
         try {
             checkValidIndex(index);
             System.out.println(String.format("  Noted. I've removed this task:\n   %s\n  Now you have %d tasks in the list.",
-                    list.get(index), list.size() - 1));
+                    getTask(index), list.size() - 1));
             list.remove(index);
             ui.drawLine();
         } catch (VeraException e) {
@@ -211,5 +211,9 @@ public class TaskList {
 
     public List<Task> getList() {
         return list;
+    }
+
+    public Task getTask(int index) {
+        return list.get(index);
     }
 }
