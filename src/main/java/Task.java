@@ -27,4 +27,8 @@ public class Task {
     public String toString() {
         return String.format("[%s] %s", getStatusIcon(), this.description);
     }
+
+    public String toFileString() {
+        return String.format("%s | %s", isDone ?"1" :"0", description);
+    }
 }
