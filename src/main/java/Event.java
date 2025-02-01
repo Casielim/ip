@@ -22,7 +22,7 @@ public class Event extends Task {
     }
     @Override
     public String toString() {
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HHmm");
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MMM dd yyyy hhmma");
         return String.format("[E]%s(from: %s to: %s)", super.toString(), from.format(dtf), to.format(dtf));
     }
 
