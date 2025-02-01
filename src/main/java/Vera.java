@@ -1,10 +1,16 @@
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 
 public class Vera{
     private static final String line = "  ________________________________________________________________________";
     private static List<Task> list = new ArrayList<>();
+    private static final String FILE_PATH = "./data/Vera.txt";
+    private static final File FILE = new File(FILE_PATH);
 
     private static void addTask(String s) throws VeraException {
         String[] part = s.split(" ",2);
@@ -26,7 +32,7 @@ public class Vera{
                     throw new VeraException("Please add description to your task!");
                 }
 
-                String[] partDL = part[1].split("/by");
+                String[] partDL = part[1].split("/by ");
                 Task dl = new Deadline(partDL[0], partDL[1]);
                 list.add(dl);
                 System.out.println(addTaskResponse(dl));
@@ -160,10 +166,94 @@ public class Vera{
         }
     }
 
+    public static void checkFile() {
+        File directory = new File("./data");
+        if (!directory.exists()) {
+            directory.mkdir();
+        }
+        if (!FILE.exists()) {
+            try {
+                FILE.createNewFile();
+            } catch (IOException e) {
+                System.out.println("Error: " + e.getMessage());
+            }
+        }
+    }
+
+    public static void saveToFile(List<Task> tasks) {
+        try {
+            checkFile();
+            FileWriter fw = new FileWriter(FILE_PATH);
+            for (Task task : tasks) {
+                fw.write(task.toFileString() + "\n");
+            }
+            fw.close();
+        } catch (IOException e) {
+            System.out.println("Error writing to file: " + e.getMessage());
+        }
+    }
+
+    private static void saveToExistingFile(Task task) throws IOException {
+        try {
+            checkFile();
+            FileWriter fw = new FileWriter(FILE_PATH, true);
+            fw.write(task.toFileString());
+            fw.close();
+        } catch (IOException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+    }
+
+    public static void loadFileContent() {
+        try {
+            checkFile();
+            Scanner sc = new Scanner(FILE);
+            while (sc.hasNextLine()) {
+                String s = sc.nextLine();
+                try {
+                    list.add(convertTextToTask(s));
+                } catch (VeraException e) {
+                    System.out.println(e.getMessage());
+                }
+            }
+            sc.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("Error file not found :" + e.getMessage());
+        }
+
+    }
+
+    public static Task convertTextToTask(String taskText) throws VeraException {
+        String[] part = taskText.split(" \\| ");
+        String type = part[0];
+        boolean isDone = part[1].equals("1");
+        String description = part[2];
+
+        switch (type) {
+        case "T":
+            Task td = new Todo(description);
+            td.isDone = isDone;
+            return td;
+        case "D":
+            String by = part[3];
+            Task dl = new Deadline(description, by);
+            dl.isDone = isDone;
+            return dl;
+        case "E":
+            String from = part[3];
+            String to = part[4];
+            Task ev = new Event(description, from, to);
+            ev.isDone = isDone;
+            return ev;
+        default:
+            throw new VeraException("Error: Invalid task type");
+        }
+    }
+
     public static void main(String[] args) {
         String greetings = "  Hello! I'm Vera\n  What can I do for you?";
         String bye = "  Bye. Hope to see you again soon!";
-
+        loadFileContent();
         Scanner sc = new Scanner(System.in);
 
         //greetings part
@@ -172,12 +262,8 @@ public class Vera{
         System.out.println(line);
 
         String s = sc.nextLine();
-        while (true) {
-            if (s.equals("bye")) {
-                break;
-            }
-
-            //Showing list 
+        while (!s.equals("bye")) {
+            //Showing list
             if (s.equals("list")) {
                 showlist(list);
                 s = sc.nextLine();
@@ -187,6 +273,7 @@ public class Vera{
             //mark command should be mark + an int
             //mark + string should be a task eg. mark paper
             if (isMarkInteger(s)) {
+                saveToFile(list);
                 s = sc.nextLine();
                 continue;
             }
@@ -194,12 +281,14 @@ public class Vera{
             //unmark command should be mark + an int
             //unmark + string should be a task eg. unmark things
             if (isUnmarkInteger(s)) {
+                saveToFile(list);
                 s = sc.nextLine();
                 continue;
             }
 
             //Delete task
             if (isDeleteInteger(s)) {
+                saveToFile(list);
                 s = sc.nextLine();
                 continue;
             }
@@ -207,6 +296,7 @@ public class Vera{
             //adding task to list and catch exception
             try {
                 addTask(s);
+                saveToFile(list);
             } catch (VeraException e) {
                 System.out.println("  Error: " + e.getMessage());
                 System.out.println(line);
