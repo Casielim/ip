@@ -1,24 +1,22 @@
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileWriter;
-import java.io.IOException;
 
 public class Vera{
     private static List<Task> list = new ArrayList<>();
     private static final String FILE_PATH = "./data/Vera.txt";
     private static final File FILE = new File(FILE_PATH);
-    private final Ui ui;
+    private Ui ui;
+    private Storage storage;
 
     public Vera() {
         this.ui = new Ui();
+        this.storage = new Storage();
     }
 
     public void run() {
         ui.greetings();
-        loadFileContent();
+        list = storage.loadFileContent();
 
         String s = ui.getNextLine();
         while (!s.equals("bye")) {
@@ -32,7 +30,7 @@ public class Vera{
             //Showing list
             if (s.equals("list")) {
                 showlist(list);
-                saveToFile(list);
+                storage.saveToFile(list);
                 s = ui.getNextLine();
                 continue;
             }
@@ -40,7 +38,7 @@ public class Vera{
             //mark command should be mark + an int
             //mark + string should be a task eg. mark paper
             if (isMarkInteger(s)) {
-                saveToFile(list);
+                storage.saveToFile(list);
                 s = ui.getNextLine();
                 continue;
             }
@@ -48,14 +46,14 @@ public class Vera{
             //unmark command should be mark + an int
             //unmark + string should be a task eg. unmark things
             if (isUnmarkInteger(s)) {
-                saveToFile(list);
+                storage.saveToFile(list);
                 s = ui.getNextLine();
                 continue;
             }
 
             //Delete task
             if (isDeleteInteger(s)) {
-                saveToFile(list);
+                storage.saveToFile(list);
                 s = ui.getNextLine();
                 continue;
             }
@@ -63,7 +61,7 @@ public class Vera{
             //adding task to list and catch exception
             try {
                 addTask(s);
-                saveToFile(list);
+                storage.saveToFile(list);
             } catch (VeraException e) {
                 System.out.println("  Error: " + e.getMessage());
                 ui.drawLine();
@@ -226,63 +224,6 @@ public class Vera{
         if (num > list.size()) {
             throw new VeraException(String.format("  You can't do this. You have only %d tasks now.", list.size()));
         }
-    }
-
-    public static void checkFile() {
-        File directory = new File("./data");
-        if (!directory.exists()) {
-            directory.mkdir();
-        }
-        if (!FILE.exists()) {
-            try {
-                FILE.createNewFile();
-            } catch (IOException e) {
-                System.out.println("Error: " + e.getMessage());
-            }
-        }
-    }
-
-    public static void saveToFile(List<Task> tasks) {
-        try {
-            checkFile();
-            FileWriter fw = new FileWriter(FILE_PATH);
-            for (Task task : tasks) {
-                fw.write(task.toFileString() + "\n");
-            }
-            fw.close();
-        } catch (IOException e) {
-            System.out.println("Error writing to file: " + e.getMessage());
-        }
-    }
-
-    private static void saveToExistingFile(Task task) throws IOException {
-        try {
-            checkFile();
-            FileWriter fw = new FileWriter(FILE_PATH, true);
-            fw.write(task.toFileString());
-            fw.close();
-        } catch (IOException e) {
-            System.out.println("Error: " + e.getMessage());
-        }
-    }
-
-    public static void loadFileContent() {
-        try {
-            checkFile();
-            Scanner sc = new Scanner(FILE);
-            while (sc.hasNextLine()) {
-                String s = sc.nextLine();
-                try {
-                    list.add(convertTextToTask(s));
-                } catch (IllegalArgumentException e) {
-                    System.out.println(e.getMessage());
-                }
-            }
-            sc.close();
-        } catch (FileNotFoundException e) {
-            System.out.println("Error file not found :" + e.getMessage());
-        }
-
     }
 
     public static Task convertTextToTask(String taskText) throws IllegalArgumentException {
