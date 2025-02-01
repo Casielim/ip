@@ -6,12 +6,16 @@
    [T][ ] read book
   Now you have 1 tasks in the list.
   ________________________________________________________________________
-  Got it. I've added this task:
-   [D][ ] return book (by: June 6th)
-  Now you have 2 tasks in the list.
+  Error: Date time input: Use format yyyy-MM-dd HHmm
   ________________________________________________________________________
   Got it. I've added this task:
-   [E][ ] project meeting (from: Aug 6th 2pm to: 4pm)
+   [D][ ] return book (by: Feb 01 2025 1159pm)
+  Now you have 2 tasks in the list.
+  ________________________________________________________________________
+  Error: Date time input: Use format yyyy-MM-dd HHmm
+  ________________________________________________________________________
+  Got it. I've added this task:
+   [E][ ] project meeting (from: Jan 29 2025 0400pm to: Jan 29 2025 0600pm)
   Now you have 3 tasks in the list.
   ________________________________________________________________________
   Got it. I've added this task:
@@ -24,8 +28,8 @@
   ________________________________________________________________________
   Here are the tasks in your list:
   1.[T][ ] read book
-  2.[D][ ] return book (by: June 6th)
-  3.[E][ ] project meeting (from: Aug 6th 2pm to: 4pm)
+  2.[D][ ] return book (by: Feb 01 2025 1159pm)
+  3.[E][ ] project meeting (from: Jan 29 2025 0400pm to: Jan 29 2025 0600pm)
   4.[T][ ] join sports club
   5.[T][ ] borrow book
   ________________________________________________________________________
@@ -45,16 +49,18 @@
   ________________________________________________________________________
   Here are the tasks in your list:
   1.[T][X] read book
-  2.[D][ ] return book (by: June 6th)
-  3.[E][ ] project meeting (from: Aug 6th 2pm to: 4pm)
+  2.[D][ ] return book (by: Feb 01 2025 1159pm)
+  3.[E][ ] project meeting (from: Jan 29 2025 0400pm to: Jan 29 2025 0600pm)
   4.[T][X] join sports club
   5.[T][ ] borrow book
   ________________________________________________________________________
   Noted. I've removed this task:
-   [E][ ] project meeting (from: Aug 6th 2pm to: 4pm)
+   [E][ ] project meeting (from: Jan 29 2025 0400pm to: Jan 29 2025 0600pm)
   Now you have 4 tasks in the list.
   ________________________________________________________________________
   You can't do this. You have only 4 tasks now.
+  ________________________________________________________________________
+  Here are the tasks in your list:
   ________________________________________________________________________
   Bye. Hope to see you again soon!
   ________________________________________________________________________
