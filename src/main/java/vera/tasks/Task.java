@@ -2,7 +2,7 @@ package vera.tasks;
 
 public class Task {
     protected String description;
-    private boolean isDone;
+    protected boolean isDone;
 
     public Task(String description) {
         this.description = description;
