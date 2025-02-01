@@ -42,7 +42,7 @@
   Nice! I've marked this task as done:
    [T][X] borrow book
   ________________________________________________________________________
-  You can't do this. You have only 5 tasks now.
+  Error: You can't do this. You have only 5 tasks now.
   ________________________________________________________________________
   OK, I've marked this task as not done yet:
    [T][ ] borrow book
@@ -58,9 +58,9 @@
    [E][ ] project meeting (from: Jan 29 2025 0400pm to: Jan 29 2025 0600pm)
   Now you have 4 tasks in the list.
   ________________________________________________________________________
-  You can't do this. You have only 4 tasks now.
+  Error: You can't do this. You have only 4 tasks now.
   ________________________________________________________________________
-  Here are the tasks in your list:
+  Error: For input string: "haha" use only index
   ________________________________________________________________________
   Bye. Hope to see you again soon!
   ________________________________________________________________________
