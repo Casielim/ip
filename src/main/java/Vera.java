@@ -242,18 +242,27 @@ public class Vera{
                 throw new IllegalArgumentException("Error: convert text to Deadline task unsuccessful");
             }
             String by = part[3];
-            Task dl = new Deadline(description, by);
-            dl.isDone = isDone;
-            return dl;
+            try {
+                Task dl = new Deadline(description, by);
+                dl.isDone = isDone;
+                return dl;
+            } catch (VeraException e) {
+                System.out.println(e.getMessage());
+            }
         case "E":
             if (part.length < 5) {
                 throw new IllegalArgumentException("Error: convert text to Event task unsuccessful");
             }
             String from = part[3];
             String to = part[4];
-            Task ev = new Event(description, from, to);
-            ev.isDone = isDone;
-            return ev;
+            try {
+                Task ev = new Event(description, from, to);
+                ev.isDone = isDone;
+                return ev;
+            } catch (VeraException e) {
+                System.out.println(e.getMessage());
+            }
+
         default:
             throw new IllegalArgumentException("Error: Invalid task type");
         }
