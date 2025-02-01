@@ -1,3 +1,5 @@
+package vera.core;
+
 import java.util.Scanner;
 
 public class Ui {

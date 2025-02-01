@@ -1,9 +1,19 @@
+package vera.tasks;
+
 public class Task {
     protected String description;
-    protected boolean isDone;
+    private boolean isDone;
 
     public Task(String description) {
         this.description = description;
+        this.isDone = false;
+    }
+
+    public void markDone() {
+        this.isDone = true;
+    }
+
+    public void unmarkDone() {
         this.isDone = false;
     }
 

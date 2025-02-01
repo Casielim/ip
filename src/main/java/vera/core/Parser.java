@@ -1,3 +1,10 @@
+package vera.core;
+
+import vera.tasks.Task;
+import vera.tasks.Todo;
+import vera.tasks.Deadline;
+import vera.tasks.Event;
+
 public class Parser {
     public Parser() {
     }
@@ -14,7 +21,11 @@ public class Parser {
         switch (type) {
         case "T":
             Task td = new Todo(description);
-            td.isDone = isDone;
+            if (isDone) {
+                td.markDone();
+            } else {
+                td.unmarkDone();
+            }
             return td;
         case "D":
             if (part.length < 4) {
@@ -23,7 +34,11 @@ public class Parser {
             String by = part[3];
             try {
                 Task dl = new Deadline(description, by);
-                dl.isDone = isDone;
+                if (isDone) {
+                    dl.markDone();
+                } else {
+                    dl.unmarkDone();
+                }
                 return dl;
             } catch (VeraException e) {
                 System.out.println(e.getMessage());
@@ -36,7 +51,11 @@ public class Parser {
             String to = part[4];
             try {
                 Task ev = new Event(description, from, to);
-                ev.isDone = isDone;
+                if (isDone) {
+                    ev.markDone();
+                } else {
+                    ev.unmarkDone();
+                }
                 return ev;
             } catch (VeraException e) {
                 System.out.println(e.getMessage());
