@@ -7,12 +7,74 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 public class Vera{
-    private static final String line = "  ________________________________________________________________________";
     private static List<Task> list = new ArrayList<>();
     private static final String FILE_PATH = "./data/Vera.txt";
     private static final File FILE = new File(FILE_PATH);
+    private final Ui ui;
 
-    private static void addTask(String s) throws VeraException {
+    public Vera() {
+        this.ui = new Ui();
+    }
+
+    public void run() {
+        ui.greetings();
+        loadFileContent();
+
+        String s = ui.getNextLine();
+        while (!s.equals("bye")) {
+            if (s.equals("clear")) {
+                list.clear();
+                showlist(list);
+                s = ui.getNextLine();
+                continue;
+            }
+
+            //Showing list
+            if (s.equals("list")) {
+                showlist(list);
+                saveToFile(list);
+                s = ui.getNextLine();
+                continue;
+            }
+
+            //mark command should be mark + an int
+            //mark + string should be a task eg. mark paper
+            if (isMarkInteger(s)) {
+                saveToFile(list);
+                s = ui.getNextLine();
+                continue;
+            }
+
+            //unmark command should be mark + an int
+            //unmark + string should be a task eg. unmark things
+            if (isUnmarkInteger(s)) {
+                saveToFile(list);
+                s = ui.getNextLine();
+                continue;
+            }
+
+            //Delete task
+            if (isDeleteInteger(s)) {
+                saveToFile(list);
+                s = ui.getNextLine();
+                continue;
+            }
+
+            //adding task to list and catch exception
+            try {
+                addTask(s);
+                saveToFile(list);
+            } catch (VeraException e) {
+                System.out.println("  Error: " + e.getMessage());
+                ui.drawLine();
+            }
+
+            s = ui.getNextLine();
+        }
+        ui.exit();
+    }
+
+    private void addTask(String s) throws VeraException {
         String[] part = s.split(" ",2);
         String first = part[0];
         switch (first) {
@@ -24,7 +86,7 @@ public class Vera{
                 Task td = new Todo(part[1]);
                 list.add(td);
                 System.out.println(addTaskResponse(td));
-                System.out.println(line);
+                ui.drawLine();
                 break;
 
             case "deadline":
@@ -36,7 +98,7 @@ public class Vera{
                 Task dl = new Deadline(partDL[0], partDL[1]);
                 list.add(dl);
                 System.out.println(addTaskResponse(dl));
-                System.out.println(line);
+                ui.drawLine();
                 break;
 
             case "event":
@@ -50,7 +112,7 @@ public class Vera{
                 Task ev = new Event(partEV[0], from, to);
                 list.add(ev);
                 System.out.println(addTaskResponse(ev));
-                System.out.println(line);
+                ui.drawLine();
                 break;
 
             default:
@@ -63,16 +125,16 @@ public class Vera{
                 task, list.size());
     }
 
-    private static void showlist(List ls) {
+    private void showlist(List ls) {
         System.out.println("  Here are the tasks in your list:");
         for (int i = 0; i < ls.size(); i++) {
             int num = i + 1;
             System.out.println("  " + num + "." + ls.get(i).toString());
         }
-        System.out.println(line);
+        ui.drawLine();
     }
 
-    private static boolean isMarkInteger(String s) {
+    private boolean isMarkInteger(String s) {
         String[] part = s.split(" ");
         if (part.length != 2) {
             return false;
@@ -85,13 +147,13 @@ public class Vera{
                     checkValidIndex(i);
                 } catch (VeraException e) {
                     System.out.println(e.getMessage());
-                    System.out.println(line);
+                    ui.drawLine();
                     return true;
                 }
 
                 Task t = list.get(i - 1);
                 t.markFeature();
-                System.out.println(line);
+                ui.drawLine();
                 return true;
             } catch (NumberFormatException e) {
                 return false;
@@ -100,7 +162,7 @@ public class Vera{
         return false;
     }
 
-    private static boolean isUnmarkInteger(String s) {
+    private boolean isUnmarkInteger(String s) {
         String[] part = s.split(" ");
         if (part.length != 2) {
             return false;
@@ -113,13 +175,13 @@ public class Vera{
                     checkValidIndex(i);
                 } catch (VeraException e) {
                     System.out.println(e.getMessage());
-                    System.out.println(line);
+                    ui.drawLine();
                     return true;
                 }
 
                 Task t = list.get(i - 1);
                 t.unmarkFeature();
-                System.out.println(line);
+                ui.drawLine();
                 return true;
             } catch (NumberFormatException e) {
                 return false;
@@ -128,7 +190,7 @@ public class Vera{
         return false;
     }
 
-    private static boolean isDeleteInteger(String s) {
+    private boolean isDeleteInteger(String s) {
         String[] part = s.split(" ");
         if (part.length != 2) {
             return false;
@@ -141,7 +203,7 @@ public class Vera{
                     checkValidIndex(i);
                 } catch (VeraException e) {
                     System.out.println(e.getMessage());
-                    System.out.println(line);
+                    ui.drawLine();
                     return true;
                 }
 
@@ -151,7 +213,7 @@ public class Vera{
                         task, list.size() - 1));
                 list.remove(index);
 
-                System.out.println(line);
+                ui.drawLine();
                 return true;
             } catch (NumberFormatException e){
                 return false;
@@ -269,63 +331,8 @@ public class Vera{
     }
 
     public static void main(String[] args) {
-        String greetings = "  Hello! I'm Vera\n  What can I do for you?";
-        String bye = "  Bye. Hope to see you again soon!";
-        loadFileContent();
-        Scanner sc = new Scanner(System.in);
-
-        //greetings part
-        System.out.println(line);
-        System.out.println(greetings);
-        System.out.println(line);
-
-        String s = sc.nextLine();
-        while (!s.equals("bye")) {
-            //Showing list
-            if (s.equals("list")) {
-                showlist(list);
-                s = sc.nextLine();
-                continue;
-            }
-
-            //mark command should be mark + an int
-            //mark + string should be a task eg. mark paper
-            if (isMarkInteger(s)) {
-                saveToFile(list);
-                s = sc.nextLine();
-                continue;
-            }
-
-            //unmark command should be mark + an int
-            //unmark + string should be a task eg. unmark things
-            if (isUnmarkInteger(s)) {
-                saveToFile(list);
-                s = sc.nextLine();
-                continue;
-            }
-
-            //Delete task
-            if (isDeleteInteger(s)) {
-                saveToFile(list);
-                s = sc.nextLine();
-                continue;
-            }
-
-            //adding task to list and catch exception
-            try {
-                addTask(s);
-                saveToFile(list);
-            } catch (VeraException e) {
-                System.out.println("  Error: " + e.getMessage());
-                System.out.println(line);
-            }
-
-            s = sc.nextLine();
-        }
-
-        //exit part
-        System.out.println(bye);
-        System.out.println(line);
+        Vera vera = new Vera();
+        vera.run();
     }
 }
 
