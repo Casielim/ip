@@ -5,10 +5,20 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import vera.core.VeraException;
 
-
+/**
+ * Represents a task with a specific deadline.
+ */
 public class Deadline extends Task {
     protected LocalDateTime by;
 
+    /**
+     * Constructs a Deadline object.
+     * Converts a string of date and time to datetime type.
+     *
+     * @param description A line of String describing the Deadline object.
+     * @param by A String of date and time.
+     * @throws VeraException If the input datetime format is not as expected.
+     */
     public Deadline(String description, String by) throws VeraException {
         super(description);
         this.by = formatDateTime(by);
@@ -24,12 +34,24 @@ public class Deadline extends Task {
         }
     }
 
+    /**
+     * Returns a string of the Deadline object,
+     * formatted for user display.
+     *
+     * @return A formatted string of Deadline object.
+     */
     @Override
     public String toString() {
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MMM dd yyyy hhmma");
         return "[D]" + super.toString() + "(by: " + by.format(dtf) + ")";
     }
 
+    /**
+     * Returns a string of the Deadline object,
+     * formatted for storing in a file.
+     *
+     * @return A formatted string of the Deadline task for file storage.
+     */
     @Override
     public String toFileString() {
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HHmm");
