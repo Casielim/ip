@@ -5,20 +5,40 @@ import java.util.List;
 import vera.core.Ui;
 import vera.core.VeraException;
 
+/**
+ * Represent a task list.
+ */
 public class TaskList {
     private static List<Task> list;
     private final Ui ui;
 
+    /**
+     * Constructs an empty TaskList.
+     *
+     * @param ui The UI instance used for display message.
+     */
     public TaskList(Ui ui) {
         this.ui = ui;
         this.list = new ArrayList<>();
     }
 
+    /**
+     * Constructs a TaskList with an existing list of tasks.
+     *
+     * @param list An existing list os Task.
+     * @param ui The UI instance used for display message.
+     */
     public TaskList(List<Task> list, Ui ui) {
         this.list = list;
         this.ui = ui;
     }
 
+    /**
+     * Adds a Task to the task list.
+     *
+     * @param s An user input String.
+     * @throws VeraException if the description is missing or the task string format is incorrect.
+     */
     public void addTask(String s) throws VeraException {
         String[] part = s.split(" ",2);
         String first = part[0];
@@ -70,6 +90,9 @@ public class TaskList {
                 task, list.size());
     }
 
+    /**
+     * Shows a list of tasks stored in task list.
+     */
     public void showList() {
         System.out.println("  Here are the tasks in your list:");
         for (int i = 0; i < list.size(); i++) {
@@ -173,6 +196,11 @@ public class TaskList {
         }
     }
 
+    /**
+     * Marks task as done based on its index.
+     *
+     * @param index The index of to be mark as done.
+     */
     public void markTask(int index) {
         try {
             checkValidIndex(index);
@@ -184,6 +212,11 @@ public class TaskList {
         }
     }
 
+    /**
+     * Marks task as not yet done based on its index.
+     *
+     * @param index The index of task to be unmarked.
+     */
     public void unmarkTask(int index) {
         try {
             checkValidIndex(index);
@@ -196,6 +229,11 @@ public class TaskList {
 
     }
 
+    /**
+     * Deletes a task from the task list based on its index.
+     *
+     * @param index The index of task to be deleted.
+     */
     public void deleteTask(int index) {
         try {
             checkValidIndex(index);

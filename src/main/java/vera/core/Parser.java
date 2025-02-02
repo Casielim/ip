@@ -5,10 +5,15 @@ import vera.tasks.Todo;
 import vera.tasks.Deadline;
 import vera.tasks.Event;
 
-public class Parser {
-    public Parser() {
-    }
 
+public class Parser {
+    /**
+     * Converts a file-formatted text into a Task object.
+     *
+     * @param taskText a line of formatted string retrieved from the file.
+     * @return a Task object.
+     * @throws IllegalArgumentException If the input format is incorrect or the task type is unrecognised.
+     */
     public static Task convertTextToTask(String taskText) throws IllegalArgumentException {
         String[] part = taskText.split(" \\| ");
         if (part.length < 3) {
