@@ -169,4 +169,31 @@ public class TaskList {
     public Task getTask(int index) {
         return list.get(index);
     }
+
+    /**
+     * Finds tasks that contain the keyword.
+     *
+     * @param keyWord string use to search in a list of tasks.
+     */
+    public void findTask(String keyWord) {
+        List<Task> foundedTaskList = new ArrayList<>();
+
+        for (Task task: list) {
+            if (task.description.contains(keyWord)) {
+                foundedTaskList.add(task);
+            }
+        }
+
+        if (foundedTaskList.size() == 0) {
+            System.out.println("Can't find any matching task");
+            ui.drawLine();
+        } else {
+            System.out.println("  Here are the matching in your list:");
+            for (int i = 0; i < foundedTaskList.size(); i++) {
+                int num = i + 1;
+                System.out.println("  " + num + "." + foundedTaskList.get(i).toString());
+            }
+            ui.drawLine();
+        }
+    }
 }

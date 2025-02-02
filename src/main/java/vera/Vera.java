@@ -26,19 +26,14 @@ public class Vera{
 
         String s = ui.getNextLine();
         while (!s.equals("bye")) {
-            try {
-                executeCommand(s);
-                storage.saveToFile(list);
-            } catch (VeraException e) {
-                ui.showError(e.getMessage());
-                ui.drawLine();
-            }
+            executeCommand(s);
+            storage.saveToFile(list);
             s = ui.getNextLine();
         }
         ui.exit();
     }
 
-    public void executeCommand(String cmd) throws VeraException {
+    public void executeCommand(String cmd) {
         try {
             if (cmd.equals("list")) {
                 list.showList();
@@ -51,13 +46,18 @@ public class Vera{
             } else if (cmd.startsWith("delete ")) {
                 int index = Integer.parseInt(cmd.split(" ")[1]) - 1;
                 list.deleteTask(index);
+            } else if (cmd.startsWith("find ")) {
+                String keyword = cmd.split(" ", 2)[1];
+                list.findTask(keyword);
             } else {
                 list.addTask(cmd);
             }
         } catch (NumberFormatException e) {
             ui.showError(e.getMessage() + " use only index");
-            ui.drawLine();
+        } catch (VeraException e) {
+            ui.showError(e.getMessage());
         }
+        ui.drawLine();
     }
 
     public static void main(String[] args) {
