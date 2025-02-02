@@ -6,7 +6,8 @@ import java.util.Scanner;
  * Represents users interface.
  */
 public class Ui {
-    public static final String LINE = "  ________________________________________________________________________";
+    public static final String LINE = "  ________________________________________________"
+            + "________________________";
     private String greetings = "  Hello! I'm Vera\n  What can I do for you?";
     private String bye = "  Bye. Hope to see you again soon!";
     Scanner sc;

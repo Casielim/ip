@@ -2,6 +2,7 @@ package vera.tasks;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import vera.core.Ui;
 import vera.core.VeraException;
 
@@ -86,8 +87,8 @@ public class TaskList {
     }
 
     private static String addTaskResponse(Task task) {
-        return String.format("  Got it. I've added this task:\n   %s\n  Now you have %d tasks in the list.",
-                task, list.size());
+        return String.format("  Got it. I've added this task:\n   %s\n  Now you have %d "
+                        + "tasks in the list.", task, list.size());
     }
 
     /**
@@ -102,97 +103,11 @@ public class TaskList {
         ui.drawLine();
     }
 
-    private boolean isMarkInteger(String s) throws VeraException {
-        String[] part = s.split(" ");
-        if (part.length != 2) {
-            return false;
-        }
-
-        if (part[0].equals("mark")) {
-            try {
-                int i = Integer.parseInt(part[1]);
-                try {
-                    checkValidIndex(i);
-                } catch (VeraException e) {
-                    System.out.println(e.getMessage());
-                    ui.drawLine();
-                    return true;
-                }
-
-                Task t = list.get(i - 1);
-                t.markFeature();
-                ui.drawLine();
-                return true;
-            } catch (NumberFormatException e) {
-                throw new VeraException("Please type command + index number.");
-            }
-        }
-        return false;
-    }
-
-    private boolean isUnmarkInteger(String s) throws VeraException {
-        String[] part = s.split(" ");
-        if (part.length != 2) {
-            return false;
-        }
-
-        if (part[0].equals("unmark")) {
-            try {
-                int i = Integer.parseInt(part[1]);
-                try {
-                    checkValidIndex(i);
-                } catch (VeraException e) {
-                    System.out.println(e.getMessage());
-                    ui.drawLine();
-                    return true;
-                }
-
-                Task t = list.get(i - 1);
-                t.unmarkFeature();
-                ui.drawLine();
-                return true;
-            } catch (NumberFormatException e) {
-                throw new VeraException("Please type command + index number.");
-            }
-        }
-        return false;
-    }
-
-    private boolean isDeleteInteger(String s) throws VeraException {
-        String[] part = s.split(" ");
-        if (part.length != 2) {
-            return false;
-        }
-
-        if (part[0].equals("delete")) {
-            try {
-                int i = Integer.parseInt(part[1]);
-                try {
-                    checkValidIndex(i);
-                } catch (VeraException e) {
-                    System.out.println(e.getMessage());
-                    ui.drawLine();
-                    return true;
-                }
-
-                int index = i - 1;
-                Task task = list.get(index);
-                System.out.println(String.format("  Noted. I've removed this task:\n   %s\n  Now you have %d tasks in the list.",
-                        task, list.size() - 1));
-                list.remove(index);
-
-                ui.drawLine();
-                return true;
-            } catch (NumberFormatException e){
-                throw new VeraException("Please type command + index number.");
-            }
-        }
-        return false;
-    }
 
     private static void checkValidIndex(int num) throws VeraException {
         if (num > list.size()) {
-            throw new VeraException(String.format("You can't do this. You have only %d tasks now.", list.size()));
+            throw new VeraException(String.format("You can't do this. You have only %d tasks now.",
+                    list.size()));
         }
     }
 
@@ -237,8 +152,8 @@ public class TaskList {
     public void deleteTask(int index) {
         try {
             checkValidIndex(index);
-            System.out.println(String.format("  Noted. I've removed this task:\n   %s\n  Now you have %d tasks in the list.",
-                    getTask(index), list.size() - 1));
+            System.out.println(String.format("  Noted. I've removed this task:\n   %s\n  "
+                    + "Now you have %d tasks in the list.", getTask(index), list.size() - 1));
             list.remove(index);
             ui.drawLine();
         } catch (VeraException e) {
