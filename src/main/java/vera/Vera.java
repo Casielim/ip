@@ -1,13 +1,9 @@
 package vera;
+
 import vera.core.Ui;
 import vera.core.Storage;
-import vera.core.Parser;
 import vera.core.VeraException;
 import vera.tasks.TaskList;
-import vera.tasks.Task;
-import vera.tasks.Todo;
-import vera.tasks.Deadline;
-import vera.tasks.Event;
 
 public class Vera{
     private Ui ui;
