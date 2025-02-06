@@ -52,7 +52,6 @@ public class TaskList {
             Task td = new Todo(part[1]);
             list.add(td);
             System.out.println(addTaskResponse(td));
-            ui.drawLine();
             break;
 
         case "deadline":
@@ -64,7 +63,6 @@ public class TaskList {
             Task dl = new Deadline(partDL[0], partDL[1]);
             list.add(dl);
             System.out.println(addTaskResponse(dl));
-            ui.drawLine();
             break;
 
         case "event":
@@ -78,7 +76,6 @@ public class TaskList {
             Task ev = new Event(partEV[0], from, to);
             list.add(ev);
             System.out.println(addTaskResponse(ev));
-            ui.drawLine();
             break;
 
         default:
@@ -100,12 +97,11 @@ public class TaskList {
             int num = i + 1;
             System.out.println("  " + num + "." + list.get(i).toString());
         }
-        ui.drawLine();
     }
 
 
-    private static void checkValidIndex(int num) throws VeraException {
-        if (num > list.size()) {
+    private static void checkValidIndex(int index) throws VeraException {
+        if (index + 1 > list.size()) {
             throw new VeraException(String.format("You can't do this. You have only %d tasks now.",
                     list.size()));
         }
@@ -120,10 +116,8 @@ public class TaskList {
         try {
             checkValidIndex(index);
             getTask(index).markFeature();
-            ui.drawLine();
         } catch (VeraException e) {
             ui.showError(e.getMessage());
-            ui.drawLine();
         }
     }
 
@@ -136,10 +130,8 @@ public class TaskList {
         try {
             checkValidIndex(index);
             getTask(index).unmarkFeature();
-            ui.drawLine();
         } catch (VeraException e) {
             ui.showError(e.getMessage());
-            ui.drawLine();
         }
 
     }
@@ -155,10 +147,8 @@ public class TaskList {
             System.out.println(String.format("  Noted. I've removed this task:\n   %s\n  "
                     + "Now you have %d tasks in the list.", getTask(index), list.size() - 1));
             list.remove(index);
-            ui.drawLine();
         } catch (VeraException e) {
             ui.showError(e.getMessage());
-            ui.drawLine();
         }
     }
 
@@ -186,14 +176,12 @@ public class TaskList {
 
         if (foundedTaskList.size() == 0) {
             System.out.println("Can't find any matching task");
-            ui.drawLine();
         } else {
             System.out.println("  Here are the matching in your list:");
             for (int i = 0; i < foundedTaskList.size(); i++) {
                 int num = i + 1;
                 System.out.println("  " + num + "." + foundedTaskList.get(i).toString());
             }
-            ui.drawLine();
         }
     }
 }
