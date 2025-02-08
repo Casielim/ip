@@ -9,6 +9,7 @@ public class Vera{
     private Ui ui;
     private Storage storage;
     private TaskList list;
+    private String commandType;
 
     public Vera() {
         this.ui = new Ui();
@@ -40,20 +41,26 @@ public class Vera{
     public void executeCommand(String cmd) {
         try {
             if (cmd.equals("list")) {
+                commandType = "list";
                 list.showList();
             } else if (cmd.startsWith("mark ")) {
+                commandType = "mark";
                 int index = Integer.parseInt(cmd.split(" ")[1]) - 1;
                 list.markTask(index);
             } else if (cmd.startsWith("unmark ")) {
+                commandType = "unmark";
                 int index = Integer.parseInt(cmd.split(" ")[1]) - 1;
                 list.unmarkTask(index);
             } else if (cmd.startsWith("delete ")) {
+                commandType = "delete";
                 int index = Integer.parseInt(cmd.split(" ")[1]) - 1;
                 list.deleteTask(index);
             } else if (cmd.startsWith("find ")) {
+                commandType = "find";
                 String keyword = cmd.split(" ", 2)[1];
                 list.findTask(keyword);
             } else {
+                commandType = "add";
                 list.addTask(cmd);
             }
         } catch (NumberFormatException e) {
@@ -64,9 +71,26 @@ public class Vera{
         ui.drawLine();
     }
 
+    /**
+     * Generates a response for the user's chat message.
+     */
+    public String getResponse(String input) {
+        try {
+            executeCommand(input);
+            storage.saveToFile(list);
+            return "Successfully processed: " + commandType;
+        } catch (Exception e) {
+            return "An unexpected error occurred. Please try again.";
+        }
+    }
+
     public static void main(String[] args) {
         Vera vera = new Vera();
         vera.run();
+    }
+
+    public String getCommandType() {
+        return commandType;
     }
 }
 
