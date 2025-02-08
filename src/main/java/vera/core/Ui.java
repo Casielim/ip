@@ -60,7 +60,7 @@ public class Ui {
      * @param msg The description of the error wanted to print.
      */
     public void showError(String msg) {
-        System.out.println("  Error: " + msg);
+        System.out.println("  Oops: " + msg);
     }
 
 }
