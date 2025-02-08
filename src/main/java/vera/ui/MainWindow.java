@@ -55,5 +55,10 @@ public class MainWindow extends AnchorPane {
                 DialogBox.getVeraDialog(response, veraImage, commandType)
         );
         userInput.clear();
+
+        if (input.equals("bye")) {
+            Platform.exit();  // Close the JavaFX application
+            System.exit(0);   // Terminate the program completely
+        }
     }
 }
