@@ -3,7 +3,6 @@ package vera.tasks;
 import java.util.ArrayList;
 import java.util.List;
 
-import vera.core.Ui;
 import vera.core.VeraException;
 
 /**
@@ -11,15 +10,11 @@ import vera.core.VeraException;
  */
 public class TaskList {
     private static List<Task> list;
-    private final Ui ui;
 
     /**
      * Constructs an empty TaskList.
-     *
-     * @param ui The UI instance used for display message.
      */
-    public TaskList(Ui ui) {
-        this.ui = ui;
+    public TaskList() {
         this.list = new ArrayList<>();
     }
 
@@ -27,11 +22,9 @@ public class TaskList {
      * Constructs a TaskList with an existing list of tasks.
      *
      * @param list An existing list os Task.
-     * @param ui The UI instance used for display message.
      */
-    public TaskList(List<Task> list, Ui ui) {
+    public TaskList(List<Task> list) {
         this.list = list;
-        this.ui = ui;
     }
 
     /**
@@ -40,19 +33,19 @@ public class TaskList {
      * @param s An user input String.
      * @throws VeraException if the description is missing or the task string format is incorrect.
      */
-    public void addTask(String s) throws VeraException {
+    public String addTask(String s) throws VeraException {
         String[] part = s.split(" ",2);
         String first = part[0];
         switch (first) {
         case "todo":
             if (part.length < 2) {
-                throw new VeraException("Please add description to your task!");
+                throw new VeraException("Please add a description to your task!");
             }
 
             Task td = new Todo(part[1]);
             list.add(td);
             System.out.println(addTaskResponse(td));
-            break;
+            return addTaskResponse(td);
 
         case "deadline":
             if (part.length < 2) {
@@ -63,7 +56,7 @@ public class TaskList {
             Task dl = new Deadline(partDL[0], partDL[1]);
             list.add(dl);
             System.out.println(addTaskResponse(dl));
-            break;
+            return addTaskResponse(dl);
 
         case "event":
             if (part.length < 2) {
@@ -76,7 +69,7 @@ public class TaskList {
             Task ev = new Event(partEV[0], from, to);
             list.add(ev);
             System.out.println(addTaskResponse(ev));
-            break;
+            return addTaskResponse(ev);
 
         default:
             throw new VeraException("I'm sorry, I can't get you, please try with command + description");
@@ -91,13 +84,17 @@ public class TaskList {
     /**
      * Shows a list of tasks stored in task list.
      */
-    public void showList() {
+    public String showList() {
         System.out.println("  Here are the tasks in your list:");
+        StringBuilder response = new StringBuilder("Here are the tasks in your list:\n");
         for (int i = 0; i < list.size(); i++) {
             int num = i + 1;
             System.out.println("  " + num + "." + list.get(i).toString());
+            response.append("  ").append(num).append(".").append(list.get(i).toString()).append("\n");
         }
+        return response.toString();
     }
+
 
 
     private static void checkValidIndex(int index) throws VeraException {
@@ -112,13 +109,10 @@ public class TaskList {
      *
      * @param index The index of to be mark as done.
      */
-    public void markTask(int index) {
-        try {
-            checkValidIndex(index);
-            getTask(index).markFeature();
-        } catch (VeraException e) {
-            ui.showError(e.getMessage());
-        }
+    public String markTask(int index) throws VeraException {
+        checkValidIndex(index);
+        getTask(index).markFeature();
+        return String.format("Nice! I've marked this task as done:\n  %s", getTask(index));
     }
 
     /**
@@ -126,14 +120,10 @@ public class TaskList {
      *
      * @param index The index of task to be unmarked.
      */
-    public void unmarkTask(int index) {
-        try {
-            checkValidIndex(index);
-            getTask(index).unmarkFeature();
-        } catch (VeraException e) {
-            ui.showError(e.getMessage());
-        }
-
+    public String unmarkTask(int index) throws VeraException {
+        checkValidIndex(index);
+        getTask(index).unmarkFeature();
+        return String.format("OK, I've marked this task as not done yet:\n  %s", getTask(index));
     }
 
     /**
@@ -141,15 +131,14 @@ public class TaskList {
      *
      * @param index The index of task to be deleted.
      */
-    public void deleteTask(int index) {
-        try {
-            checkValidIndex(index);
-            System.out.println(String.format("  Noted. I've removed this task:\n   %s\n  "
-                    + "Now you have %d tasks in the list.", getTask(index), list.size() - 1));
-            list.remove(index);
-        } catch (VeraException e) {
-            ui.showError(e.getMessage());
-        }
+    public String deleteTask(int index) throws VeraException {
+        checkValidIndex(index);
+        Task removedTask = getTask(index);
+        System.out.println(String.format("  Noted. I've removed this task:\n   %s\n  "
+                + "Now you have %d tasks in the list.", removedTask, list.size() - 1));
+        list.remove(index);
+        return String.format("Noted. I've removed this task:\n  %s\nNow you have %d tasks in the list.",
+                removedTask, list.size());
     }
 
     public List<Task> getList() {
@@ -165,7 +154,8 @@ public class TaskList {
      *
      * @param keyWord string use to search in a list of tasks.
      */
-    public void findTask(String keyWord) {
+    public String findTask(String keyWord) {
+        StringBuilder response = new StringBuilder();
         List<Task> foundedTaskList = new ArrayList<>();
 
         for (Task task: list) {
@@ -176,12 +166,16 @@ public class TaskList {
 
         if (foundedTaskList.size() == 0) {
             System.out.println("Can't find any matching task");
+            response.append("Can't find any matching task");
         } else {
+            response.append("Here are the matching tasks in your list:\n");
             System.out.println("  Here are the matching in your list:");
             for (int i = 0; i < foundedTaskList.size(); i++) {
                 int num = i + 1;
                 System.out.println("  " + num + "." + foundedTaskList.get(i).toString());
+                response.append("  ").append(i + 1).append(".").append(foundedTaskList.get(i)).append("\n");
             }
         }
+        return response.toString();
     }
 }
