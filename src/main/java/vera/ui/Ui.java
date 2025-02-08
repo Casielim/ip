@@ -1,4 +1,4 @@
-package vera.core;
+package vera.ui;
 
 import java.util.Scanner;
 

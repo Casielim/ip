@@ -1,4 +1,4 @@
-package vera;
+package vera.ui;
 
 import java.io.IOException;
 import java.util.Collections;
