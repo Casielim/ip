@@ -24,13 +24,13 @@ public class MainWindow extends AnchorPane {
     private Vera vera;
 
     private Image userImage = new Image(this.getClass().getResourceAsStream("/images/DaUser.png"));
-    private Image dukeImage = new Image(this.getClass().getResourceAsStream("/images/DaVera.png"));
+    private Image veraImage = new Image(this.getClass().getResourceAsStream("/images/DaVera.png"));
 
     @FXML
     public void initialize() {
         scrollPane.vvalueProperty().bind(dialogContainer.heightProperty());
         dialogContainer.getChildren().addAll(
-                DialogBox.getDukeDialog("Hello! I'm Vera. What can I do for you?", dukeImage, "greeting")
+                DialogBox.getVeraDialog("Hello! I'm Vera. What can I do for you?", veraImage, "greeting")
         );
     }
 
@@ -50,7 +50,7 @@ public class MainWindow extends AnchorPane {
         String commandType = vera.getCommandType();
         dialogContainer.getChildren().addAll(
                 DialogBox.getUserDialog(input, userImage),
-                DialogBox.getDukeDialog(response, dukeImage, commandType)
+                DialogBox.getVeraDialog(response, veraImage, commandType)
         );
         userInput.clear();
     }
