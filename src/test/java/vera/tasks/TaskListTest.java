@@ -2,7 +2,7 @@ package vera.tasks;
 
 import org.junit.jupiter.api.Test;
 import vera.core.VeraException;
-import vera.core.Ui;
+import vera.ui.Ui;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,19 +12,19 @@ public class TaskListTest {
     @Test
     public void addTaskTest() throws VeraException {
         Ui ui = new Ui();
-        TaskList tl = new TaskList(ui);
+        TaskList tl = new TaskList();
         tl.addTask("todo borrow book");
 
         assertEquals("borrow book", tl.getTask(0).description);
     }
 
     @Test
-    public void deleteTaskTest() {
+    public void deleteTaskTest() throws VeraException {
         Ui ui = new Ui();
         List<Task> list = new ArrayList<>();
         list.add(new Todo("borrow book"));
         list.add(new Todo("return book"));
-        TaskList taskList = new TaskList(list, ui);
+        TaskList taskList = new TaskList(list);
 
         taskList.deleteTask(0);
 
