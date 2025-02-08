@@ -26,9 +26,13 @@ public class Vera{
 
         String s = ui.getNextLine();
         while (!s.equals("bye")) {
-            executeCommand(s);
-            storage.saveToFile(list);
-            s = ui.getNextLine();
+            try {
+                executeCommand(s);
+                storage.saveToFile(list);
+            } catch (Exception e) {
+                ui.showError("Unexpected error: " + e.getMessage());
+            }
+            s = ui.getNextLine();  // Ensure input is always taken after an exception
         }
         ui.exit();
     }
