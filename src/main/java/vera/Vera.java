@@ -5,12 +5,22 @@ import vera.core.Storage;
 import vera.core.VeraException;
 import vera.tasks.TaskList;
 
+/**
+ * Represents the main class for the Vera chatbot.
+ * Vera is a personal assistant chatbot that helps users manage tasks such as todos, deadlines, and events.
+ * It supports both text-based and graphical user interfaces (GUI).
+ */
 public class Vera{
     private Ui ui;
     private Storage storage;
     private TaskList list;
     private String commandType;
 
+    /**
+     * Construct a Vera Chatbot instance.
+     * Initialize ui, storage as well as a task list with content loaded from storage file.
+     * Initialized a new empty task list if error occur loading the content.
+     */
     public Vera() {
         this.ui = new Ui();
         this.storage = new Storage();
@@ -22,6 +32,10 @@ public class Vera{
         }
     }
 
+    /**
+     * Run the chatbot to allow users input their command.
+     * Chatbot will keep running until the "bye" command is detected.
+     */
     public void run() {
         ui.greetings();
 
@@ -38,6 +52,12 @@ public class Vera{
         ui.exit();
     }
 
+    /**
+     * Executes a user command and returns a response as a string.
+     *
+     * @param cmd User command.
+     * @return The response after executing the command.
+     */
     public String executeCommand(String cmd) {
         try {
             if (cmd.equals("list")) {
@@ -82,13 +102,15 @@ public class Vera{
 
     /**
      * Generates a response for the user's chat message.
+     *
+     * @param input User input.
+     * @return The response from the chatbot.
      */
     public String getResponse(String input) {
         try {
             String response = executeCommand(input);
             storage.saveToFile(list);
             return response;
-            //return "Successfully processed: " + commandType;
         } catch (Exception e) {
             return "An unexpected error occurred. Please try again.";
         }
@@ -99,6 +121,11 @@ public class Vera{
         vera.run();
     }
 
+    /**
+     * Gets the type of the command executed.
+     *
+     * @return The type of the command executed.
+     */
     public String getCommandType() {
         return commandType;
     }
