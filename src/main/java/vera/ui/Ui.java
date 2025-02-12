@@ -48,11 +48,20 @@ public class Ui {
     }
 
     /**
+     * Prints a given message.
+     * @param msg The message to be displayed.
+     */
+    public void showMessage(String msg) {
+        System.out.println("  " + msg);
+    }
+
+    /**
      * Prints a horizontal line.
      */
     public void drawLine() {
         System.out.println(LINE);
     }
+
 
     /**
      * Prints an error message.

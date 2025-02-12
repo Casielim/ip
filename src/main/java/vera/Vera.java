@@ -47,7 +47,7 @@ public class Vera{
             } catch (Exception e) {
                 ui.showError("Unexpected error: " + e.getMessage());
             }
-            s = ui.getNextLine();  // Ensure input is always taken after an exception
+            s = ui.getNextLine();
         }
         ui.exit();
     }
@@ -60,44 +60,47 @@ public class Vera{
      */
     public String executeCommand(String cmd) {
         try {
+            String response;
             if (cmd.equals("list")) {
                 commandType = "list";
-                String response = list.showList();
-                return response;
+                response = list.showList();
             } else if (cmd.startsWith("mark ")) {
                 commandType = "mark";
-                int index = Integer.parseInt(cmd.split(" ")[1]) - 1;
-                String response = list.markTask(index);
-                return response;
+                int index = getIndex(cmd);
+                response = list.markTask(index);
             } else if (cmd.startsWith("unmark ")) {
                 commandType = "unmark";
-                int index = Integer.parseInt(cmd.split(" ")[1]) - 1;
-                String response = list.unmarkTask(index);
-                return response;
+                int index = getIndex(cmd);
+                response = list.unmarkTask(index);
             } else if (cmd.startsWith("delete ")) {
                 commandType = "delete";
-                int index = Integer.parseInt(cmd.split(" ")[1]) - 1;
-                String response = list.deleteTask(index);
-                return response;
+                int index = getIndex(cmd);
+                response = list.deleteTask(index);
             } else if (cmd.startsWith("find ")) {
                 commandType = "find";
                 String keyword = cmd.split(" ", 2)[1];
-                String response = list.findTask(keyword);
-                return response;
+                response = list.findTask(keyword);
             } else {
                 commandType = "add";
-                String response = list.addTask(cmd);
-                return response;
+                response = list.addTask(cmd);
             }
+            ui.showMessage(response);
+            ui.drawLine();
+            return response;
         } catch (NumberFormatException e) {
             commandType = "error";
             ui.showError(e.getMessage() + " use only index");
+            ui.drawLine();
             return e.getMessage() + " use only index";
         } catch (VeraException e) {
             ui.showError(e.getMessage());
+            ui.drawLine();
             return "Oops: " + e.getMessage();
         }
-        //ui.drawLine();
+    }
+
+    private static int getIndex(String cmd) {
+        return Integer.parseInt(cmd.split(" ")[1]) - 1;
     }
 
     /**

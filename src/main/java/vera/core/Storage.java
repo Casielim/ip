@@ -40,7 +40,7 @@ public class Storage {
             try {
                 file.createNewFile();
             } catch (IOException e) {
-                System.out.println("Error: " + e.getMessage());
+                System.out.println("Oops: " + e.getMessage());
             }
         }
     }
@@ -59,7 +59,7 @@ public class Storage {
             }
             fw.close();
         } catch (IOException e) {
-            System.out.println("Error writing to file: " + e.getMessage());
+            System.out.println("Fail writing to file: " + e.getMessage());
         }
     }
 

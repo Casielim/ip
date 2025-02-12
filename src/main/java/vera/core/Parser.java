@@ -17,7 +17,7 @@ public class Parser {
     public static Task convertTextToTask(String taskText) throws IllegalArgumentException {
         String[] part = taskText.split(" \\| ");
         if (part.length < 3) {
-            throw new IllegalArgumentException("Error: convert text to task unsuccessful");
+            throw new IllegalArgumentException("Oops: convert text to task unsuccessful");
         }
         String type = part[0];
         boolean isDone = part[1].equals("1");
@@ -34,7 +34,7 @@ public class Parser {
             return td;
         case "D":
             if (part.length < 4) {
-                throw new IllegalArgumentException("Error: convert text to Deadline task unsuccessful");
+                throw new IllegalArgumentException("Oops: convert text to Deadline task unsuccessful");
             }
             String by = part[3];
             try {
@@ -50,7 +50,7 @@ public class Parser {
             }
         case "E":
             if (part.length < 5) {
-                throw new IllegalArgumentException("Error: convert text to Event task unsuccessful");
+                throw new IllegalArgumentException("Oops: convert text to Event task unsuccessful");
             }
             String from = part[3];
             String to = part[4];
@@ -67,7 +67,7 @@ public class Parser {
             }
 
         default:
-            throw new IllegalArgumentException("Error: Invalid task type");
+            throw new IllegalArgumentException("Oops: Invalid task type");
         }
     }
 }
