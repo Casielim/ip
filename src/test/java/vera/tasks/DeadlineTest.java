@@ -12,7 +12,7 @@ public class DeadlineTest {
     public void markTaskTest() throws VeraException {
         Deadline dlTask = new Deadline("deadline return book", "2025-02-01 2359");
         assertFalse(dlTask.isDone);
-        dlTask.markFeature();
+        dlTask.markDone();
         assertTrue(dlTask.isDone);
     }
 
@@ -21,10 +21,10 @@ public class DeadlineTest {
         Deadline dlTask = new Deadline("return book ", "2025-02-01 2359");
         assertEquals("[D][ ] return book (by: Feb 01 2025 1159pm)", dlTask.toString(), "toString() format is incorrect");
 
-        dlTask.markFeature();
+        dlTask.markDone();
         assertEquals("[D][X] return book (by: Feb 01 2025 1159pm)", dlTask.toString(), "toString() format is incorrect after markDone");
 
-        dlTask.unmarkFeature();
+        dlTask.unmarkDone();
         assertEquals("[D][ ] return book (by: Feb 01 2025 1159pm)", dlTask.toString(), "toString() format is incorrect after unmarkDone");
     }
 

@@ -16,15 +16,15 @@ public class TodoTest {
     @Test
     public void markTaskTest() {
         Todo todoTask = new Todo("borrow book");
-        todoTask.markFeature();
+        todoTask.markDone();
         assertTrue(todoTask.isDone);
     }
 
     @Test
     public void unmarkTaskTest() {
         Todo todoTask = new Todo("borrow book");
-        todoTask.markFeature();
-        todoTask.unmarkFeature();
+        todoTask.markDone();
+        todoTask.unmarkDone();
         assertFalse(todoTask.isDone);
     }
 
@@ -33,10 +33,10 @@ public class TodoTest {
         Todo todoTask = new Todo("exercise");
         assertEquals("[T][ ] exercise", todoTask.toString(), "toString() format is incorrect");
 
-        todoTask.markFeature();
+        todoTask.markDone();
         assertEquals("[T][X] exercise", todoTask.toString(), "toString() format is incorrect after markDone");
 
-        todoTask.unmarkFeature();
+        todoTask.unmarkDone();
         assertEquals("[T][ ] exercise", todoTask.toString(), "toString() format is incorrect after unmarkDone");
     }
 
@@ -44,10 +44,10 @@ public class TodoTest {
         Todo todoTask = new Todo("do homework");
         assertEquals("T | 0 | do homework", todoTask.toFileString(), "toFileString() format is incorrect");
 
-        todoTask.markFeature();
+        todoTask.markDone();
         assertEquals("T | 1 | do homework", todoTask.toFileString(), "toString() format is incorrect after markDone");
 
-        todoTask.unmarkFeature();
+        todoTask.unmarkDone();
         assertEquals("T | 0 | do homework", todoTask.toFileString(), "toString() format is incorrect after unmarkDone");
     }
 }

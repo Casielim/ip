@@ -41,24 +41,6 @@ public class Task {
         return (isDone ? "X" : " "); //mark done task with X
     }
 
-    /**
-     * Marks the task as done and print the done message.
-     */
-    public void markFeature() {
-        System.out.println("  Nice! I've marked this task as done:");
-        this.isDone = true;
-        System.out.println("   " + this.toString());
-    }
-
-    /**
-     * Marks the task as not yet done and print the not yet done message.
-     */
-    public void unmarkFeature() {
-        System.out.println("  OK, I've marked this task as not done yet:");
-        this.isDone = false;
-        System.out.println("   " + this.toString());
-    }
-
     @Override
     public String toString() {
         return String.format("[%s] %s", getStatusIcon(), this.description);
