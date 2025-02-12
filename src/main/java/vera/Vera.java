@@ -78,8 +78,8 @@ public class Vera{
                 response = list.deleteTask(index);
             } else if (cmd.startsWith("find ")) {
                 commandType = "find";
-                String keyword = cmd.split(" ", 2)[1];
-                response = list.findTask(keyword);
+                String[] keywords = cmd.split(" ", 2)[1].split("\\s");
+                response = list.findTask(keywords);
             } else {
                 commandType = "add";
                 response = list.addTask(cmd);
