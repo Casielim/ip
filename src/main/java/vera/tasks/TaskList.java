@@ -145,15 +145,19 @@ public class TaskList {
     /**
      * Finds tasks that contain the keyword.
      *
-     * @param keyWord string use to search in a list of tasks.
+     * @param keywords strings use to search in a list of tasks.
+     * @return A string return a list of matching task.
      */
-    public String findTask(String keyWord) {
+    public String findTask(String ... keywords) {
         StringBuilder response = new StringBuilder();
         List<Task> foundedTaskList = new ArrayList<>();
 
         for (Task task: list) {
-            if (task.description.contains(keyWord)) {
-                foundedTaskList.add(task);
+            for (String keyword : keywords) {
+                if (task.description.toLowerCase().contains(keyword.toLowerCase())) {
+                    foundedTaskList.add(task);
+                    break;
+                }
             }
         }
 
