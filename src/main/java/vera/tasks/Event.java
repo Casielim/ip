@@ -22,13 +22,13 @@ public class Event extends Task {
      * @param to A String of date and time indicating the end time of the event.
      * @throws VeraException If the input datetime formats are not as expected.
      */
-    public Event (String description, String from, String to) throws VeraException {
+    public Event(String description, String from, String to) throws VeraException {
         super(description);
         this.from = formatDateTime(from);
         this.to = formatDateTime(to);
     }
 
-    private LocalDateTime formatDateTime (String dt) throws VeraException {
+    private LocalDateTime formatDateTime(String dt) throws VeraException {
         try {
             DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HHmm");
             return LocalDateTime.parse(dt, dtf);

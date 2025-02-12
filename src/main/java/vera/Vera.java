@@ -1,16 +1,16 @@
 package vera;
 
-import vera.ui.Ui;
 import vera.core.Storage;
 import vera.core.VeraException;
 import vera.tasks.TaskList;
+import vera.ui.Ui;
 
 /**
  * Represents the main class for the Vera chatbot.
  * Vera is a personal assistant chatbot that helps users manage tasks such as todos, deadlines, and events.
  * It supports both text-based and graphical user interfaces (GUI).
  */
-public class Vera{
+public class Vera {
     private Ui ui;
     private Storage storage;
     private TaskList list;

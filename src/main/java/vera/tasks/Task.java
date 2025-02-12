@@ -47,6 +47,6 @@ public class Task {
     }
 
     public String toFileString() {
-        return String.format("%s | %s", isDone ?"1" :"0", description);
+        return String.format("%s | %s", isDone ? "1" : "0", description);
     }
 }

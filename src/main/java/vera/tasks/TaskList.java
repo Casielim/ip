@@ -34,7 +34,7 @@ public class TaskList {
      * @throws VeraException if the description is missing or the task string format is incorrect.
      */
     public String addTask(String s) throws VeraException {
-        String[] part = s.split(" ",2);
+        String[] part = s.split(" ", 2);
         String first = part[0];
         switch (first) {
         case "todo":

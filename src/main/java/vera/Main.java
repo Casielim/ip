@@ -25,7 +25,7 @@ public class Main extends Application {
             stage.setScene(scene);
             stage.setMinHeight(220);
             stage.setMinWidth(417);
-            fxmlLoader.<MainWindow>getController().setVera(vera);  // inject the Vera instance
+            fxmlLoader.<MainWindow>getController().setVera(vera);
             stage.setTitle("Vera Chatbot");
             stage.show();
         } catch (IOException e) {

@@ -1,7 +1,5 @@
 package vera.tasks;
 
-import vera.core.VeraException;
-
 /**
  * Represents a task to be done.
  */

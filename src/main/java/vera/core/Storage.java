@@ -1,15 +1,15 @@
 package vera.core;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
 
-import vera.tasks.TaskList;
 import vera.tasks.Task;
+import vera.tasks.TaskList;
 
 /**
  * Represents a storage storing the task list.

@@ -10,7 +10,7 @@ public class Ui {
             + "________________________";
     private String greetings = "  Hello! I'm Vera\n  What can I do for you?";
     private String bye = "  Bye. Hope to see you again soon!";
-    Scanner sc;
+    private Scanner sc;
 
     /**
      * Constructs a ui and initializes a scanner.
