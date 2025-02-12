@@ -1,10 +1,13 @@
 package vera.core;
 
-import vera.tasks.Task;
-import vera.tasks.Todo;
 import vera.tasks.Deadline;
 import vera.tasks.Event;
+import vera.tasks.Task;
+import vera.tasks.Todo;
 
+/**
+ *  This class is used to convert file-formatted text back into Task objects.
+ */
 
 public class Parser {
     /**
@@ -28,8 +31,6 @@ public class Parser {
             Task td = new Todo(description);
             if (isDone) {
                 td.markDone();
-            } else {
-                td.unmarkDone();
             }
             return td;
         case "D":
@@ -41,12 +42,10 @@ public class Parser {
                 Task dl = new Deadline(description, by);
                 if (isDone) {
                     dl.markDone();
-                } else {
-                    dl.unmarkDone();
                 }
                 return dl;
             } catch (VeraException e) {
-                System.out.println(e.getMessage());
+                throw new IllegalArgumentException("Invalid deadline format: " + e.getMessage());
             }
         case "E":
             if (part.length < 5) {
@@ -58,12 +57,10 @@ public class Parser {
                 Task ev = new Event(description, from, to);
                 if (isDone) {
                     ev.markDone();
-                } else {
-                    ev.unmarkDone();
                 }
                 return ev;
             } catch (VeraException e) {
-                System.out.println(e.getMessage());
+                throw new IllegalArgumentException("Invalid event format: " + e.getMessage());
             }
 
         default:

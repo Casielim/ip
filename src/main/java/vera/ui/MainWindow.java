@@ -28,6 +28,10 @@ public class MainWindow extends AnchorPane {
     private Image userImage = new Image(this.getClass().getResourceAsStream("/images/DaUser.png"));
     private Image veraImage = new Image(this.getClass().getResourceAsStream("/images/DaVera.png"));
 
+    /**
+     * Initializes the main window of the Vera chatbot.
+     * Displays an initial greeting message from Vera in the dialog container.
+     */
     @FXML
     public void initialize() {
         scrollPane.vvalueProperty().bind(dialogContainer.heightProperty());
@@ -57,8 +61,8 @@ public class MainWindow extends AnchorPane {
         userInput.clear();
 
         if (input.equals("bye")) {
-            Platform.exit();  // Close the JavaFX application
-            System.exit(0);   // Terminate the program completely
+            Platform.exit();
+            System.exit(0);
         }
     }
 }
