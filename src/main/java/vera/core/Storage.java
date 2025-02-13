@@ -31,7 +31,7 @@ public class Storage {
      * Creates parent directory if needed.
      * Creates a new storage file if the directory do not have such file.
      */
-    public void checkFile() {
+    public void checkFile() throws VeraException {
         File directory = new File("./data");
         if (!directory.exists()) {
             directory.mkdir();
@@ -40,7 +40,7 @@ public class Storage {
             try {
                 file.createNewFile();
             } catch (IOException e) {
-                System.out.println("Oops: " + e.getMessage());
+                throw new VeraException("Oops: " + e.getMessage());
             }
         }
     }
@@ -50,7 +50,7 @@ public class Storage {
      *
      * @param tasks The TaskList object containing a list of task to be saved.
      */
-    public void saveToFile(TaskList tasks) {
+    public void saveToFile(TaskList tasks) throws VeraException {
         try {
             checkFile();
             FileWriter fw = new FileWriter(FILE_PATH);
@@ -59,7 +59,7 @@ public class Storage {
             }
             fw.close();
         } catch (IOException e) {
-            System.out.println("Fail writing to file: " + e.getMessage());
+            throw new VeraException("Fail writing to file: " + e.getMessage());
         }
     }
 
@@ -73,21 +73,23 @@ public class Storage {
      */
     public List<Task> loadFileContent() throws VeraException {
         List<Task> list = new ArrayList<>();
+        Scanner sc;
         try {
             checkFile();
-            Scanner sc = new Scanner(file);
-            while (sc.hasNextLine()) {
-                String s = sc.nextLine();
-                try {
-                    list.add(Parser.convertTextToTask(s));
-                } catch (IllegalArgumentException e) {
-                    System.out.println(e.getMessage());
-                }
-            }
-            sc.close();
+            sc = new Scanner(file);
         } catch (FileNotFoundException e) {
             throw new VeraException("file not found");
         }
+
+        while (sc.hasNextLine()) {
+            String s = sc.nextLine();
+            try {
+                list.add(Parser.convertTextToTask(s));
+            } catch (IllegalArgumentException e) {
+                throw new VeraException(e.getMessage());
+            }
+        }
+        sc.close();
         return list;
     }
 }

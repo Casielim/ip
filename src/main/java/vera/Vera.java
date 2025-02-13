@@ -38,12 +38,13 @@ public class Vera {
      */
     public void run() {
         ui.greetings();
-
         String s = ui.getNextLine();
         while (!s.equals("bye")) {
             try {
                 executeCommand(s);
                 storage.saveToFile(list);
+            } catch (VeraException e) {
+                ui.showError(e.getMessage());
             } catch (Exception e) {
                 ui.showError("Unexpected error: " + e.getMessage());
             }
@@ -121,14 +122,11 @@ public class Vera {
             String response = executeCommand(input);
             storage.saveToFile(list);
             return response;
+        } catch (VeraException e) {
+            return e.getMessage();
         } catch (Exception e) {
             return "An unexpected error occurred. Please try again.";
         }
-    }
-
-    public static void main(String[] args) {
-        Vera vera = new Vera();
-        vera.run();
     }
 
     /**
@@ -138,6 +136,11 @@ public class Vera {
      */
     public String getCommandType() {
         return commandType;
+    }
+
+    public static void main(String[] args) {
+        Vera vera = new Vera();
+        vera.run();
     }
 }
 
