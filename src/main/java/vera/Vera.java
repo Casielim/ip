@@ -68,18 +68,22 @@ public class Vera {
             } else if (cmd.startsWith("mark ")) {
                 commandType = "mark";
                 int index = getIndex(cmd);
+                assert index >= 1 : "Index must be greater than 0";
                 response = list.markTask(index);
             } else if (cmd.startsWith("unmark ")) {
                 commandType = "unmark";
                 int index = getIndex(cmd);
+                assert index >= 1 : "Index must be greater than 0";
                 response = list.unmarkTask(index);
             } else if (cmd.startsWith("delete ")) {
                 commandType = "delete";
                 int index = getIndex(cmd);
+                assert index >= 1 : "Index must be greater than 0";
                 response = list.deleteTask(index);
             } else if (cmd.startsWith("find ")) {
                 commandType = "find";
                 String[] keywords = cmd.split(" ", 2)[1].split("\\s");
+                assert keywords.length >= 1 : "Must have at least one keyword";
                 response = list.findTask(keywords);
             } else {
                 commandType = "add";
@@ -88,6 +92,9 @@ public class Vera {
             ui.showMessage(response);
             ui.drawLine();
             return response;
+        } catch (AssertionError e) {
+            commandType = "error";
+            return "Assertion failed: " + e.getMessage();
         } catch (NumberFormatException e) {
             commandType = "error";
             ui.showError(e.getMessage() + " use only index");
