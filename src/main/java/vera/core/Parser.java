@@ -25,46 +25,40 @@ public class Parser {
         String type = part[0];
         boolean isDone = part[1].equals("1");
         String description = part[2];
-
-        switch (type) {
-        case "T":
-            Task td = new Todo(description);
-            if (isDone) {
-                td.markDone();
-            }
-            return td;
-        case "D":
-            if (part.length < 4) {
-                throw new IllegalArgumentException("Oops: convert text to Deadline task unsuccessful");
-            }
-            String by = part[3];
-            try {
-                Task dl = new Deadline(description, by);
-                if (isDone) {
-                    dl.markDone();
+        Task task;
+        try {
+            switch (type) {
+            case "T":
+                task = new Todo(description);
+                break;
+            case "D":
+                if (part.length < 4) {
+                    throw new IllegalArgumentException("Oops: convert text to Deadline task unsuccessful");
                 }
-                return dl;
-            } catch (VeraException e) {
-                throw new IllegalArgumentException("Invalid deadline format: " + e.getMessage());
-            }
-        case "E":
-            if (part.length < 5) {
-                throw new IllegalArgumentException("Oops: convert text to Event task unsuccessful");
-            }
-            String from = part[3];
-            String to = part[4];
-            try {
-                Task ev = new Event(description, from, to);
-                if (isDone) {
-                    ev.markDone();
+                String by = part[3];
+                task = new Deadline(description, by);
+                break;
+            case "E":
+                if (part.length < 5) {
+                    throw new IllegalArgumentException("Oops: convert text to Event task unsuccessful");
                 }
-                return ev;
-            } catch (VeraException e) {
-                throw new IllegalArgumentException("Invalid event format: " + e.getMessage());
+                String from = part[3];
+                String to = part[4];
+                task = new Event(description, from, to);
+                break;
+            default:
+                throw new IllegalArgumentException("Oops: Invalid task type");
             }
+            loadIsDone(isDone, task);
+            return task;
+        } catch (VeraException e) {
+            throw new IllegalArgumentException("Invalid task format: " + e.getMessage());
+        }
+    }
 
-        default:
-            throw new IllegalArgumentException("Oops: Invalid task type");
+    private static void loadIsDone(boolean isDone, Task td) {
+        if (isDone) {
+            td.markDone();
         }
     }
 }
