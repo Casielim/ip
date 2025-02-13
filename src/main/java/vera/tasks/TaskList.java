@@ -31,46 +31,35 @@ public class TaskList {
      * Adds a Task to the task list.
      *
      * @param s An user input String.
+     * @return A string of added task.
      * @throws VeraException if the description is missing or the task string format is incorrect.
      */
     public String addTask(String s) throws VeraException {
         String[] part = s.split(" ", 2);
+        if (part.length < 2) {
+            throw new VeraException("Please add a description to your task!");
+        }
         String first = part[0];
+        Task task;
         switch (first) {
         case "todo":
-            if (part.length < 2) {
-                throw new VeraException("Please add a description to your task!");
-            }
-
-            Task td = new Todo(part[1]);
-            list.add(td);
-            return addTaskResponse(td);
-
+            task = new Todo(part[1]);
+            break;
         case "deadline":
-            if (part.length < 2) {
-                throw new VeraException("Please add description to your task!");
-            }
-
             String[] partDL = part[1].split("/by ");
-            Task dl = new Deadline(partDL[0], partDL[1]);
-            list.add(dl);
-            return addTaskResponse(dl);
-
+            task = new Deadline(partDL[0], partDL[1]);
+            break;
         case "event":
-            if (part.length < 2) {
-                throw new VeraException("Please add description to your task!");
-            }
-
             String[] partEV = part[1].split("/");
             String from = partEV[1].split(" ", 2)[1];
             String to = partEV[2].split(" ", 2)[1];
-            Task ev = new Event(partEV[0], from, to);
-            list.add(ev);
-            return addTaskResponse(ev);
-
+            task = new Event(partEV[0], from, to);
+            break;
         default:
             throw new VeraException("I'm sorry, I can't get you, please try with command + description");
         }
+        list.add(task);
+        return addTaskResponse(task);
     }
 
     private static String addTaskResponse(Task task) {
@@ -80,6 +69,8 @@ public class TaskList {
 
     /**
      * Shows a list of tasks stored in task list.
+     *
+     * @return A list of tasks in string type.
      */
     public String showList() {
         StringBuilder response = new StringBuilder("Here are the tasks in your list:");
@@ -89,8 +80,6 @@ public class TaskList {
         }
         return response.toString();
     }
-
-
 
     private static void checkValidIndex(int index) throws VeraException {
         if (index + 1 > list.size()) {
@@ -103,6 +92,7 @@ public class TaskList {
      * Marks task as done based on its index.
      *
      * @param index The index of to be mark as done.
+     * @return A string to inform the user the task has already marked
      */
     public String markTask(int index) throws VeraException {
         checkValidIndex(index);
@@ -114,6 +104,7 @@ public class TaskList {
      * Marks task as not yet done based on its index.
      *
      * @param index The index of task to be unmarked.
+     * @return A string to inform the user the task has already unmarked.
      */
     public String unmarkTask(int index) throws VeraException {
         checkValidIndex(index);
@@ -125,6 +116,7 @@ public class TaskList {
      * Deletes a task from the task list based on its index.
      *
      * @param index The index of task to be deleted.
+     * @return A string to inform the user the task has been deleted.
      */
     public String deleteTask(int index) throws VeraException {
         checkValidIndex(index);
@@ -153,15 +145,12 @@ public class TaskList {
         List<Task> foundedTaskList = new ArrayList<>();
 
         for (Task task: list) {
-            for (String keyword : keywords) {
-                if (task.description.toLowerCase().contains(keyword.toLowerCase())) {
-                    foundedTaskList.add(task);
-                    break;
-                }
+            if (containsKeyword(keywords, task)) {
+                foundedTaskList.add(task);
             }
         }
 
-        if (foundedTaskList.size() == 0) {
+        if (foundedTaskList.isEmpty()) {
             response.append("Can't find any matching task");
         } else {
             response.append("Here are the matching tasks in your list:");
@@ -171,5 +160,14 @@ public class TaskList {
             }
         }
         return response.toString();
+    }
+
+    private static boolean containsKeyword(String[] keywords, Task task) {
+        for (String keyword : keywords) {
+            if (task.description.toLowerCase().contains(keyword.toLowerCase())) {
+                return true;
+            }
+        }
+        return false;
     }
 }
