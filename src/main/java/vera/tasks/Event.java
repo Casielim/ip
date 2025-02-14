@@ -38,6 +38,17 @@ public class Event extends Task {
     }
 
     /**
+     * Snooze/ Update/ Delay date time easily.
+     *
+     * @param newFrom Updated From time.
+     * @param newTo Udated To time.
+     */
+    public void snooze(String newFrom, String newTo) {
+        this.from = LocalDateTime.parse(newFrom, DateTimeFormatter.ofPattern("yyyy-MM-dd HHmm"));
+        this.to = LocalDateTime.parse(newTo, DateTimeFormatter.ofPattern("yyyy-MM-dd HHmm"));
+    }
+
+    /**
      * Returns a string of the Event object,
      * formatted for user display.
      *

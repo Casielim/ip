@@ -36,6 +36,15 @@ public class Deadline extends Task {
     }
 
     /**
+     * Snooze/Update/Delay the date time easily.
+     *
+     * @param newBy Updated date time.
+     */
+    public void snooze(String newBy) {
+        this.by = LocalDateTime.parse(newBy, DateTimeFormatter.ofPattern("yyyy-MM-dd HHmm"));
+    }
+
+    /**
      * Returns a string of the Deadline object,
      * formatted for user display.
      *
