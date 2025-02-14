@@ -85,6 +85,10 @@ public class Vera {
                 String[] keywords = cmd.split(" ", 2)[1].split("\\s");
                 assert keywords.length >= 1 : "Must have at least one keyword";
                 response = list.findTask(keywords);
+            } else if (cmd.startsWith("snooze ")) {
+                commandType = "snooze";
+                int index = getIndex(cmd);
+                response = doSnooze(cmd, index);
             } else {
                 commandType = "add";
                 response = list.addTask(cmd);
@@ -105,6 +109,24 @@ public class Vera {
             ui.drawLine();
             return "Oops: " + e.getMessage();
         }
+    }
+
+    private String doSnooze(String command, int index) throws VeraException {
+        String response;
+        String[] parts = command.split(" ");
+        if (parts.length == 4) {  // Deadline
+            String newBy = parts[2] + " " + parts[3];
+            response = list.snoozeTask(index, newBy);
+        } else if (parts.length == 6) {  // Event
+            String newFrom = parts[2] + " " + parts[3];
+            String newTo = parts[4] + " " + parts[5];
+            response = list.snoozeTask(index, newFrom, newTo);
+        } else {
+            response = "Invalid snooze format. Use:\n" +
+                    "  - For deadlines: snooze <index> <newTime>\n" +
+                    "  - For events: snooze <index> <newFrom> <newTo>";
+        }
+        return response;
     }
 
     private static int getIndex(String cmd) {

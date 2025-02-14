@@ -170,4 +170,29 @@ public class TaskList {
         }
         return false;
     }
+
+    /**
+     * Change date time of a Deadline task or Event Task.
+     *
+     * @param index The index of task to be updated.
+     * @param newTimes Updated by time for Deadline task or from and to task for Event task.
+     * @return A String of updated date time
+     * @throws VeraException If the task format is incorrect.
+     */
+    public String snoozeTask(int index, String... newTimes) throws VeraException {
+        Task task = getTask(index);
+        if (task instanceof Deadline) {
+            ((Deadline) task).snooze(newTimes[0]);
+            return "Deadline task snoozed to: " + newTimes[0];
+        } else if (task instanceof Event) {
+            if (newTimes.length < 2) {
+                throw new VeraException("Event tasks require both 'from' and 'to' times.");
+            }
+            ((Event) task).snooze(newTimes[0], newTimes[1]);
+            return "Event task rescheduled to: from " + newTimes[0] + " to " + newTimes[1];
+        } else {
+            throw new VeraException("Only Deadline and Event tasks can be snoozed.");
+        }
+    }
+
 }
