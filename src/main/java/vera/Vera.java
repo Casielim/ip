@@ -1,5 +1,6 @@
 package vera;
 
+import vera.core.Command;
 import vera.core.Storage;
 import vera.core.VeraException;
 import vera.tasks.TaskList;
@@ -41,7 +42,7 @@ public class Vera {
         String s = ui.getNextLine();
         while (!s.equals("bye")) {
             try {
-                executeCommand(s);
+                processCommand(s);
                 storage.saveToFile(list);
             } catch (VeraException e) {
                 ui.showError(e.getMessage());
@@ -59,40 +60,10 @@ public class Vera {
      * @param cmd User command.
      * @return The response after executing the command.
      */
-    public String executeCommand(String cmd) {
+    public String processCommand(String cmd) {
         try {
-            String response;
-            if (cmd.equals("list")) {
-                commandType = "list";
-                response = list.showList();
-            } else if (cmd.startsWith("mark ")) {
-                commandType = "mark";
-                int index = getIndex(cmd);
-                assert index >= 1 : "Index must be greater than 0";
-                response = list.markTask(index);
-            } else if (cmd.startsWith("unmark ")) {
-                commandType = "unmark";
-                int index = getIndex(cmd);
-                assert index >= 1 : "Index must be greater than 0";
-                response = list.unmarkTask(index);
-            } else if (cmd.startsWith("delete ")) {
-                commandType = "delete";
-                int index = getIndex(cmd);
-                assert index >= 1 : "Index must be greater than 0";
-                response = list.deleteTask(index);
-            } else if (cmd.startsWith("find ")) {
-                commandType = "find";
-                String[] keywords = cmd.split(" ", 2)[1].split("\\s");
-                assert keywords.length >= 1 : "Must have at least one keyword";
-                response = list.findTask(keywords);
-            } else if (cmd.startsWith("snooze ")) {
-                commandType = "snooze";
-                int index = getIndex(cmd);
-                response = doSnooze(cmd, index);
-            } else {
-                commandType = "add";
-                response = list.addTask(cmd);
-            }
+            Command commandEnum = Command.getCommandEnum(cmd);
+            String response = executeCommand(cmd, commandEnum);
             ui.showMessage(response);
             ui.drawLine();
             return response;
@@ -105,9 +76,41 @@ public class Vera {
             ui.drawLine();
             return e.getMessage() + " use only index";
         } catch (VeraException e) {
+            commandType = "error";
             ui.showError(e.getMessage());
             ui.drawLine();
             return "Oops: " + e.getMessage();
+        }
+    }
+
+    private String executeCommand(String cmd, Command commandEnum) throws VeraException {
+        int index;
+        switch (commandEnum) {
+        case LIST:
+            return list.showList();
+        case MARK:
+            index = getIndex(cmd);
+            assert index >= 0 : "Index must be greater than 0";
+            return list.markTask(index);
+        case UNMARK:
+            index = getIndex(cmd);
+            assert index >= 0 : "Index must be greater than 0";
+            return list.unmarkTask(index);
+        case DELETE:
+            index = getIndex(cmd);
+            assert index >= 0 : "Index must be greater than 0";
+            return list.deleteTask(index);
+        case FIND:
+            String[] keywords = cmd.split(" ", 2)[1].split("\\s");
+            assert keywords.length >= 1 : "Must have at least one keyword";
+            return list.findTask(keywords);
+        case SNOOZE:
+            index = getIndex(cmd);
+            return doSnooze(cmd, index);
+        case ADD:
+            return list.addTask(cmd);
+        default:
+            return "I don't understand you";
         }
     }
 
@@ -129,7 +132,7 @@ public class Vera {
         return response;
     }
 
-    private static int getIndex(String cmd) {
+    private int getIndex(String cmd) throws NumberFormatException {
         return Integer.parseInt(cmd.split(" ")[1]) - 1;
     }
 
@@ -141,7 +144,7 @@ public class Vera {
      */
     public String getResponse(String input) {
         try {
-            String response = executeCommand(input);
+            String response = processCommand(input);
             storage.saveToFile(list);
             return response;
         } catch (VeraException e) {

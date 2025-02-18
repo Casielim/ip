@@ -9,6 +9,7 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import vera.Vera;
+import vera.core.Command;
 
 /**
  * Controller for the main GUI.
@@ -36,7 +37,7 @@ public class MainWindow extends AnchorPane {
     public void initialize() {
         scrollPane.vvalueProperty().bind(dialogContainer.heightProperty());
         dialogContainer.getChildren().addAll(
-                DialogBox.getVeraDialog("Hello! I'm Vera. What can I do for you?", veraImage, "greeting")
+                DialogBox.getVeraDialog("Hello! I'm Vera. What can I do for you?", veraImage, Command.GREETING)
         );
     }
 
@@ -53,10 +54,10 @@ public class MainWindow extends AnchorPane {
     private void handleUserInput() {
         String input = userInput.getText();
         String response = vera.getResponse(input);
-        String commandType = vera.getCommandType();
+        Command commandEnum = Command.getCommandEnum(input);
         dialogContainer.getChildren().addAll(
                 DialogBox.getUserDialog(input, userImage),
-                DialogBox.getVeraDialog(response, veraImage, commandType)
+                DialogBox.getVeraDialog(response, veraImage, commandEnum)
         );
         userInput.clear();
 

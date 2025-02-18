@@ -13,6 +13,7 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
+import vera.core.Command;
 
 /**
  * Represents a dialog box consisting of an ImageView to represent the speaker's face
@@ -53,35 +54,36 @@ public class DialogBox extends HBox {
         return new DialogBox(text, img);
     }
 
-    private void changeDialogStyle(String commandType) {
-        switch(commandType) {
-        case "list":
+    private void changeDialogStyle(Command commandEnum) {
+        switch(commandEnum) {
+        case LIST:
             dialog.getStyleClass().add("list-label");
             break;
-        case "mark":
+        case MARK:
             dialog.getStyleClass().add("mark-label");
             break;
-        case "unmark":
+        case UNMARK:
             dialog.getStyleClass().add("unmark-label");
             break;
-        case "delete":
+        case DELETE:
             dialog.getStyleClass().add("delete-label");
             break;
-        case "find":
+        case FIND:
             dialog.getStyleClass().add("find-label");
             break;
-        case "add":
+        case ADD:
             dialog.getStyleClass().add("add-label");
             break;
         default:
             // Do nothing
         }
     }
+
     // ...
-    public static DialogBox getVeraDialog(String text, Image img, String commandType) {
+    public static DialogBox getVeraDialog(String text, Image img, Command commandEnum) {
         var db = new DialogBox(text, img);
         db.flip();
-        db.changeDialogStyle(commandType);
+        db.changeDialogStyle(commandEnum);
         return db;
     }
 
