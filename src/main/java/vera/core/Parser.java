@@ -6,7 +6,7 @@ import vera.tasks.Task;
 import vera.tasks.Todo;
 
 /**
- *  This class is used to convert file-formatted text back into Task objects.
+ * Uses to convert file-formatted text back into Task objects.
  */
 
 public class Parser {

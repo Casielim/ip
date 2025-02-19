@@ -38,7 +38,7 @@ public class Event extends Task {
     }
 
     /**
-     * Snooze/ Update/ Delay date time easily.
+     * Snoozes or updates date time easily.
      *
      * @param newFrom Updated From time.
      * @param newTo Udated To time.
@@ -49,8 +49,7 @@ public class Event extends Task {
     }
 
     /**
-     * Returns a string of the Event object,
-     * formatted for user display.
+     * Returns a string of the Event object, formatted for user display.
      *
      * @return A formatted string of Event object.
      */
@@ -61,8 +60,7 @@ public class Event extends Task {
     }
 
     /**
-     * Returns a string of the Event object,
-     * formatted for storing in a file.
+     * Returns a string of the Event object, formatted for storing in a file.
      *
      * @return A formatted string of the Event task for file storage.
      */

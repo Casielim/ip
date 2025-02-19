@@ -12,7 +12,8 @@ import vera.Vera;
 import vera.core.Command;
 
 /**
- * Controller for the main GUI.
+ * Represents the main window of the Vera chatbot's GUI.
+ * Handles user interactions by displaying messages and receiving user input.
  */
 public class MainWindow extends AnchorPane {
     @FXML
@@ -41,7 +42,9 @@ public class MainWindow extends AnchorPane {
         );
     }
 
-    /** Injects the Vera instance */
+    /**
+     * Injects the Vera instance
+     */
     public void setVera(Vera v) {
         vera = v;
     }

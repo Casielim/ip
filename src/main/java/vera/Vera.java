@@ -17,9 +17,9 @@ public class Vera {
     private TaskList list;
 
     /**
-     * Construct a Vera Chatbot instance.
-     * Initialize ui, storage as well as a task list with content loaded from storage file.
-     * Initialized a new empty task list if error occur loading the content.
+     * Constructs a Vera Chatbot instance.
+     * Initializes ui, storage as well as a task list with content loaded from storage file.
+     * Initializes a new empty task list if error occur loading the content.
      */
     public Vera() {
         this.ui = new Ui();
@@ -33,7 +33,7 @@ public class Vera {
     }
 
     /**
-     * Run the chatbot to allow users input their command.
+     * Runs the chatbot to allow users input their command.
      * Chatbot will keep running until the "bye" command is detected.
      */
     public void run() {
@@ -58,11 +58,12 @@ public class Vera {
      *
      * @param cmd User command.
      * @return The response after executing the command.
+     * @throws VeraException If they catch
      */
     public String processCommand(String cmd) throws VeraException {
         if (!isValidCommand(cmd)) {
             return "Oops sorry, I can't get you.";
-        };
+        }
         try {
             Command commandEnum = Command.getCommandEnum(cmd);
             String response = executeCommand(cmd, commandEnum);

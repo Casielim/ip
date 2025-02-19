@@ -19,7 +19,7 @@ public class Storage {
     private File file;
 
     /**
-     * Constructs a Storage object,
+     * Constructs a Storage object.
      * Initializes the file.
      */
     public Storage() {

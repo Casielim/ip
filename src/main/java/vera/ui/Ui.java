@@ -49,6 +49,7 @@ public class Ui {
 
     /**
      * Prints a given message.
+     *
      * @param msg The message to be displayed.
      */
     public void showMessage(String msg) {

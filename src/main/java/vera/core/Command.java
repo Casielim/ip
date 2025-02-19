@@ -18,7 +18,7 @@ public enum Command {
     /**
      * Converts command string to command enum value.
      *
-     * @param cmd The input command string
+     * @param cmd The input command string.
      * @return The corresponding command enum value.
      */
     public static Command getCommandEnum(String cmd) {

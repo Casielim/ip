@@ -46,6 +46,11 @@ public class Task {
         return String.format("[%s] %s", getStatusIcon(), this.description);
     }
 
+    /**
+     * Converts a task into a formatted string suitable for file storage.
+     *
+     * @return A string representation of the task for file storage.
+     */
     public String toFileString() {
         return String.format("%s | %s", isDone ? "1" : "0", description);
     }

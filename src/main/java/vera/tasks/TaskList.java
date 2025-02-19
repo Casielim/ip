@@ -6,7 +6,7 @@ import java.util.List;
 import vera.core.VeraException;
 
 /**
- * Represent a task list.
+ * Represents a task list.
  */
 public class TaskList {
     private static List<Task> list;
@@ -172,11 +172,11 @@ public class TaskList {
     }
 
     /**
-     * Change date time of a Deadline task or Event Task.
+     * Changes date time of a Deadline task or Event Task.
      *
      * @param index The index of task to be updated.
      * @param newTimes Updated by time for Deadline task or from and to task for Event task.
-     * @return A String of updated date time
+     * @return A String of updated date time.
      * @throws VeraException If the task format is incorrect.
      */
     public String snoozeTask(int index, String... newTimes) throws VeraException {

@@ -36,7 +36,7 @@ public class Deadline extends Task {
     }
 
     /**
-     * Snooze/Update/Delay the date time easily.
+     * Snoozes or updates the date time easily.
      *
      * @param newBy Updated date time.
      */
@@ -45,8 +45,7 @@ public class Deadline extends Task {
     }
 
     /**
-     * Returns a string of the Deadline object,
-     * formatted for user display.
+     * Returns a string of the Deadline object, formatted for user display.
      *
      * @return A formatted string of Deadline object.
      */
@@ -57,8 +56,7 @@ public class Deadline extends Task {
     }
 
     /**
-     * Returns a string of the Deadline object,
-     * formatted for storing in a file.
+     * Returns a string of the Deadline object, formatted for storing in a file.
      *
      * @return A formatted string of the Deadline task for file storage.
      */

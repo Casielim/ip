@@ -50,6 +50,13 @@ public class DialogBox extends HBox {
         dialog.getStyleClass().add("reply-label");
     }
 
+    /**
+     * Creates a dialog box representing the user's input.
+     *
+     * @param text The yser input text.
+     * @param img The user's profile image.
+     * @return A dialogBox containing user input.
+     */
     public static DialogBox getUserDialog(String text, Image img) {
         return new DialogBox(text, img);
     }
@@ -82,7 +89,14 @@ public class DialogBox extends HBox {
         }
     }
 
-    // ...
+    /**
+     * Creates a dialog box representing Vera's response and applies corresponding styling based on the command type.
+     *
+     * @param response The response text from Vera.
+     * @param img Vera chatbot's profile image.
+     * @param commandEnum The tyoe of the command.
+     * @return A DialogBox containing Vera's response.
+     */
     public static DialogBox getVeraDialog(String response, Image img, Command commandEnum) {
         var db = new DialogBox(response, img);
         db.flip();
