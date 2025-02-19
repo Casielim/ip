@@ -74,14 +74,17 @@ public class DialogBox extends HBox {
         case ADD:
             dialog.getStyleClass().add("add-label");
             break;
+        case OOPS:
+            dialog.getStyleClass().add("error-label");
+            break;
         default:
             // Do nothing
         }
     }
 
     // ...
-    public static DialogBox getVeraDialog(String text, Image img, Command commandEnum) {
-        var db = new DialogBox(text, img);
+    public static DialogBox getVeraDialog(String response, Image img, Command commandEnum) {
+        var db = new DialogBox(response, img);
         db.flip();
         db.changeDialogStyle(commandEnum);
         return db;

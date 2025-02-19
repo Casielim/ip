@@ -54,16 +54,24 @@ public class MainWindow extends AnchorPane {
     private void handleUserInput() {
         String input = userInput.getText();
         String response = vera.getResponse(input);
-        Command commandEnum = Command.getCommandEnum(input);
+        Command returnEnum = getReturnType(input, response);
         dialogContainer.getChildren().addAll(
                 DialogBox.getUserDialog(input, userImage),
-                DialogBox.getVeraDialog(response, veraImage, commandEnum)
+                DialogBox.getVeraDialog(response, veraImage, returnEnum)
         );
         userInput.clear();
 
         if (input.equals("bye")) {
             Platform.exit();
             System.exit(0);
+        }
+    }
+
+    private Command getReturnType(String input, String response) {
+        if (response.startsWith("Oops")) {
+            return Command.getCommandEnum(response);
+        } else {
+            return Command.getCommandEnum(input);
         }
     }
 }
