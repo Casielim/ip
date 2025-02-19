@@ -11,7 +11,8 @@ public enum Command {
     FIND,
     SNOOZE,
     ADD,
-    GREETING;
+    GREETING,
+    OOPS;
 
 
     /**
@@ -23,18 +24,27 @@ public enum Command {
     public static Command getCommandEnum(String cmd) {
         if (cmd.equals("list")) {
             return LIST;
-        } else if (cmd.startsWith("mark ")) {
+        } else if (cmd.startsWith("mark")) {
             return MARK;
-        } else if (cmd.startsWith("unmark ")) {
+        } else if (cmd.startsWith("unmark")) {
             return UNMARK;
-        } else if (cmd.startsWith("delete ")) {
+        } else if (cmd.startsWith("delete")) {
             return DELETE;
-        } else if (cmd.startsWith("find ")) {
+        } else if (cmd.startsWith("find")) {
             return FIND;
-        } else if (cmd.startsWith("snooze ")) {
+        } else if (cmd.startsWith("snooze")) {
             return SNOOZE;
-        } else {
+        } else if (isTask(cmd)){
             return ADD;
+        } else {
+            return OOPS;
         }
+    }
+
+    private static boolean isTask(String cmd) {
+        if (cmd.startsWith("todo") || cmd.startsWith("deadline") || cmd.startsWith("event")) {
+            return true;
+        }
+        return false;
     }
 }

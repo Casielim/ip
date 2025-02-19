@@ -15,7 +15,6 @@ public class Vera {
     private Ui ui;
     private Storage storage;
     private TaskList list;
-    private String commandType;
 
     /**
      * Construct a Vera Chatbot instance.
@@ -47,7 +46,7 @@ public class Vera {
             } catch (VeraException e) {
                 ui.showError(e.getMessage());
             } catch (Exception e) {
-                ui.showError("Unexpected error: " + e.getMessage());
+                ui.showError("Oops: Unexpected error: " + e.getMessage());
             }
             s = ui.getNextLine();
         }
@@ -60,7 +59,10 @@ public class Vera {
      * @param cmd User command.
      * @return The response after executing the command.
      */
-    public String processCommand(String cmd) {
+    public String processCommand(String cmd) throws VeraException {
+        if (!isValidCommand(cmd)) {
+            return "Oops sorry, I can't get you.";
+        };
         try {
             Command commandEnum = Command.getCommandEnum(cmd);
             String response = executeCommand(cmd, commandEnum);
@@ -68,22 +70,33 @@ public class Vera {
             ui.drawLine();
             return response;
         } catch (AssertionError e) {
-            commandType = "error";
-            return "Assertion failed: " + e.getMessage();
+            ui.showError("Assertion failed: " + e.getMessage());
+            ui.drawLine();
+            return executeCommand("Assertion failed: " + e.getMessage(), Command.OOPS);
         } catch (NumberFormatException e) {
-            commandType = "error";
             ui.showError(e.getMessage() + " use only index");
             ui.drawLine();
-            return e.getMessage() + " use only index";
+            return executeCommand(e.getMessage() + " use only index", Command.OOPS);
+        } catch (ArrayIndexOutOfBoundsException e) {
+            ui.showError("Oops: please enter index that you want to work on, <command> <index>");
+            ui.drawLine();
+            return executeCommand("Oops: please enter index that you want to work on, use <command> <index>",
+                    Command.OOPS);
         } catch (VeraException e) {
-            commandType = "error";
             ui.showError(e.getMessage());
             ui.drawLine();
-            return "Oops: " + e.getMessage();
+            return executeCommand("Oops: " + e.getMessage(), Command.OOPS);
         }
     }
 
-    private String executeCommand(String cmd, Command commandEnum) throws VeraException {
+    private boolean isValidCommand(String cmd) {
+        if (Command.getCommandEnum(cmd).equals(Command.OOPS)) {
+            return false;
+        }
+        return true;
+    }
+
+    private String executeCommand(String cmd, Command commandEnum) throws VeraException, NumberFormatException {
         int index;
         switch (commandEnum) {
         case LIST:
@@ -110,7 +123,7 @@ public class Vera {
         case ADD:
             return list.addTask(cmd);
         default:
-            return "I don't understand you";
+            return cmd;
         }
     }
 
@@ -132,7 +145,7 @@ public class Vera {
         return response;
     }
 
-    private int getIndex(String cmd) throws NumberFormatException {
+    private int getIndex(String cmd) throws NumberFormatException, ArrayIndexOutOfBoundsException {
         return Integer.parseInt(cmd.split(" ")[1]) - 1;
     }
 
@@ -150,17 +163,8 @@ public class Vera {
         } catch (VeraException e) {
             return e.getMessage();
         } catch (Exception e) {
-            return "An unexpected error occurred. Please try again.";
+            return "Oops: An unexpected error occurred. Please try again.";
         }
-    }
-
-    /**
-     * Gets the type of the command executed.
-     *
-     * @return The type of the command executed.
-     */
-    public String getCommandType() {
-        return commandType;
     }
 
     public static void main(String[] args) {

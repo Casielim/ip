@@ -1,8 +1,6 @@
 .label {
     background: white;
     -fx-background-color: background;
-    /* -fx-background-color: linear-gradient(to bottom right, #00ffbf, #00ddff);
-    -fx-background-color: derive(blue, -1.5);*/
     -fx-border-color: #d55e00 #009e73 #cc79a7 #0072b2;
     -fx-border-width: 2px;
     -fx-background-radius: 1em 1em 0 1em;
@@ -28,15 +26,30 @@
 }
 
 /* Paste this below reply-label */
-.add-label {
-    -fx-background-color: yellow;
+.list-label {
+    -fx-background-color: violet;
 }
 
-.marked-label {
+.mark-label {
     -fx-background-color: palegreen;
+}
+
+.unmark-label {
+    -fx-background-color: aquamarine;
 }
 
 .delete-label {
     -fx-background-color: lightpink;
 }
 
+.find-label {
+    -fx-background-color: skyblue;
+}
+
+.add-label {
+    -fx-background-color: peachpuff;
+}
+
+.error-label {
+    -fx-background-color: yellow;
+}
