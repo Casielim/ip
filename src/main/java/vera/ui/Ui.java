@@ -8,12 +8,12 @@ import java.util.Scanner;
 public class Ui {
     public static final String LINE = "  ________________________________________________"
             + "________________________";
-    private String greetings = "  Hello! I'm Vera\n  What can I do for you?";
-    private String bye = "  Bye. Hope to see you again soon!";
-    private Scanner sc;
+    protected final String greetings = "  Hello! I'm Vera\n  What can I do for you?";
+    protected final String bye = "  Bye. Hope to see you again soon!";
+    private final Scanner sc;
 
     /**
-     * Constructs a ui and initializes a scanner.
+     * Constructs an ui and initializes a scanner.
      */
     public Ui() {
         this.sc = new Scanner(System.in);

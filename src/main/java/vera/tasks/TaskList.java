@@ -9,7 +9,7 @@ import vera.core.VeraException;
  * Represents a task list.
  */
 public class TaskList {
-    private static List<Task> list;
+    private List<Task> list;
 
     /**
      * Constructs an empty TaskList.
@@ -67,7 +67,7 @@ public class TaskList {
         return addTaskResponse(task);
     }
 
-    private static String addTaskResponse(Task task) {
+    private String addTaskResponse(Task task) {
         return String.format("  Got it. I've added this task:\n   %s\n  Now you have %d "
                         + "tasks in the list.", task, list.size());
     }
@@ -86,7 +86,7 @@ public class TaskList {
         return response.toString();
     }
 
-    private static void checkValidIndex(int index) throws VeraException {
+    private void checkValidIndex(int index) throws VeraException {
         if (index + 1 > list.size()) {
             throw new VeraException(String.format("You can't do this. You have only %d tasks now.",
                     list.size()));

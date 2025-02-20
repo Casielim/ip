@@ -12,8 +12,8 @@ import vera.ui.Ui;
  * It supports both text-based and graphical user interfaces (GUI).
  */
 public class Vera {
-    private Ui ui;
-    private Storage storage;
+    private final Ui ui;
+    private final Storage storage;
     private TaskList list;
 
     /**

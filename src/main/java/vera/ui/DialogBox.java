@@ -103,5 +103,4 @@ public class DialogBox extends HBox {
         db.changeDialogStyle(commandEnum);
         return db;
     }
-
 }
