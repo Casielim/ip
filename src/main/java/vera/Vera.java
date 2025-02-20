@@ -131,18 +131,18 @@ public class Vera {
     private String doSnooze(String command, int index) throws VeraException {
         String response;
         String[] parts = command.split(" ");
-        if (parts.length == 4) {  // Deadline
+        if (parts.length == 4) { //Deadline
             String newBy = parts[2] + " " + parts[3];
             response = list.snoozeTask(index, newBy);
-        } else if (parts.length == 6) {  // Event
+        } else if (parts.length == 6) { //Event
             String newFrom = parts[2] + " " + parts[3];
             String newTo = parts[4] + " " + parts[5];
             response = list.snoozeTask(index, newFrom, newTo);
         } else {
-            response = "Oops! " +
-                    "Invalid snooze format. Use:\n" +
-                    "  - For deadlines: snooze <index> <newTime>\n" +
-                    "  - For events: snooze <index> <newFrom> <newTo>";
+            response = "Oops! "
+                    + "Invalid snooze format. Use:\n"
+                    + "  - For deadlines: snooze <index> <newTime>\n"
+                    + "  - For events: snooze <index> <newFrom> <newTo>";
         }
         return response;
     }
@@ -151,8 +151,8 @@ public class Vera {
         try {
             return Integer.parseInt(cmd.split(" ")[1]) - 1;
         } catch (ArrayIndexOutOfBoundsException e) {
-            throw new VeraException("please enter index that you want to work on, use <command> <index> " +
-                    "or find <keywords>");
+            throw new VeraException("please enter index that you want to work on, use <command> <index> "
+                    + "or find <keywords>");
         }
     }
 

@@ -34,7 +34,7 @@ public enum Command {
             return FIND;
         } else if (cmd.startsWith("snooze")) {
             return SNOOZE;
-        } else if (isTask(cmd)){
+        } else if (isTask(cmd)) {
             return ADD;
         } else {
             return OOPS;

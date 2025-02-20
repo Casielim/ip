@@ -60,8 +60,8 @@ public class TaskList {
                 throw new VeraException("I'm sorry, I can't get you, please try with command + description");
             }
         } catch (ArrayIndexOutOfBoundsException e) {
-            throw new VeraException("\nfor deadline use: deadline <task> /by <date time> \n" +
-                    "for event use: event <task> /from <date time>/to <date time>");
+            throw new VeraException("\nfor deadline use: deadline <task> /by <date time> \n"
+                    + "for event use: event <task> /from <date time>/to <date time>");
         }
         list.add(task);
         return addTaskResponse(task);
@@ -187,13 +187,15 @@ public class TaskList {
     public String snoozeTask(int index, String... newTimes) throws VeraException {
         Task task = getTask(index);
         if (task instanceof Deadline) {
-            ((Deadline) task).snooze(newTimes[0]);
+            Deadline dlTask = (Deadline) task;
+            dlTask.snooze(newTimes[0]);
             return "Deadline task snoozed to: " + newTimes[0];
         } else if (task instanceof Event) {
             if (newTimes.length < 2) {
                 throw new VeraException("Event tasks require both 'from' and 'to' times.");
             }
-            ((Event) task).snooze(newTimes[0], newTimes[1]);
+            Event evTask = (Event) task;
+            evTask.snooze(newTimes[0], newTimes[1]);
             return "Event task rescheduled to: from " + newTimes[0] + " to " + newTimes[1];
         } else {
             throw new VeraException("Only Deadline and Event tasks can be snoozed.");
