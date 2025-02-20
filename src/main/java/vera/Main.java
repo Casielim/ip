@@ -14,7 +14,7 @@ import vera.ui.MainWindow;
  */
 public class Main extends Application {
 
-    private Vera vera = new Vera();
+    private final Vera vera = new Vera();
 
     @Override
     public void start(Stage stage) {
@@ -26,7 +26,7 @@ public class Main extends Application {
             stage.setMinHeight(220);
             stage.setMinWidth(417);
             fxmlLoader.<MainWindow>getController().setVera(vera);
-            stage.setTitle("Vera Chatbot");
+            stage.setTitle("Vera");
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();
