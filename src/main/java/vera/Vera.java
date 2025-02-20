@@ -39,16 +39,17 @@ public class Vera {
     public void run() {
         ui.greetings();
         String s = ui.getNextLine();
-        while (!s.equals("bye")) {
+        String trimmedInput = s.trim();
+        while (!trimmedInput.equals("bye")) {
             try {
-                processCommand(s);
+                processCommand(trimmedInput);
                 storage.saveToFile(list);
             } catch (VeraException e) {
                 ui.showError(e.getMessage());
             } catch (Exception e) {
                 ui.showError("Oops: Unexpected error: " + e.getMessage());
             }
-            s = ui.getNextLine();
+            trimmedInput = ui.getNextLine().trim();
         }
         ui.exit();
     }
@@ -163,7 +164,8 @@ public class Vera {
      */
     public String getResponse(String input) {
         try {
-            String response = processCommand(input);
+            String trimmedInput = input.trim();
+            String response = processCommand(trimmedInput);
             storage.saveToFile(list);
             return response;
         } catch (VeraException e) {

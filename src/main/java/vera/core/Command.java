@@ -22,7 +22,7 @@ public enum Command {
      * @return The corresponding command enum value.
      */
     public static Command getCommandEnum(String cmd) {
-        if (cmd.equals("list")) {
+        if (cmd.equals("list") || cmd.equals("list ")) {
             return LIST;
         } else if (cmd.startsWith("mark")) {
             return MARK;
