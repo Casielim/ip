@@ -39,16 +39,17 @@ public class Vera {
     public void run() {
         ui.greetings();
         String s = ui.getNextLine();
-        while (!s.equals("bye")) {
+        String trimmedInput = s.trim();
+        while (!trimmedInput.equals("bye")) {
             try {
-                processCommand(s);
+                processCommand(trimmedInput);
                 storage.saveToFile(list);
             } catch (VeraException e) {
                 ui.showError(e.getMessage());
             } catch (Exception e) {
                 ui.showError("Oops: Unexpected error: " + e.getMessage());
             }
-            s = ui.getNextLine();
+            trimmedInput = ui.getNextLine().trim();
         }
         ui.exit();
     }
@@ -71,18 +72,17 @@ public class Vera {
             ui.drawLine();
             return response;
         } catch (AssertionError e) {
-            ui.showError("Assertion failed: " + e.getMessage());
+            ui.showError("Oops assertion failed: " + e.getMessage());
             ui.drawLine();
-            return executeCommand("Assertion failed: " + e.getMessage(), Command.OOPS);
+            return executeCommand("Oops assertion failed: " + e.getMessage(), Command.OOPS);
         } catch (NumberFormatException e) {
-            ui.showError(e.getMessage() + " use only index");
+            ui.showError("Oops: " + e.getMessage() + " use only index");
             ui.drawLine();
-            return executeCommand(e.getMessage() + " use only index", Command.OOPS);
+            return executeCommand("Oops: " + e.getMessage() + " use only index", Command.OOPS);
         } catch (ArrayIndexOutOfBoundsException e) {
-            ui.showError("Oops: please enter index that you want to work on, <command> <index>");
+            ui.showError("Oops: " + e.getMessage());
             ui.drawLine();
-            return executeCommand("Oops: please enter index that you want to work on, use <command> <index>",
-                    Command.OOPS);
+            return executeCommand("Oops: " + e.getMessage(), Command.OOPS);
         } catch (VeraException e) {
             ui.showError(e.getMessage());
             ui.drawLine();
@@ -97,7 +97,7 @@ public class Vera {
         return true;
     }
 
-    private String executeCommand(String cmd, Command commandEnum) throws VeraException, NumberFormatException {
+    private String executeCommand(String cmd, Command commandEnum) throws VeraException {
         int index;
         switch (commandEnum) {
         case LIST:
@@ -115,8 +115,8 @@ public class Vera {
             assert index >= 0 : "Index must be greater than 0";
             return list.deleteTask(index);
         case FIND:
+            assert cmd.split("\\s").length > 1 : "Must have at least one keyword";
             String[] keywords = cmd.split(" ", 2)[1].split("\\s");
-            assert keywords.length >= 1 : "Must have at least one keyword";
             return list.findTask(keywords);
         case SNOOZE:
             index = getIndex(cmd);
@@ -139,15 +139,21 @@ public class Vera {
             String newTo = parts[4] + " " + parts[5];
             response = list.snoozeTask(index, newFrom, newTo);
         } else {
-            response = "Invalid snooze format. Use:\n" +
+            response = "Oops! " +
+                    "Invalid snooze format. Use:\n" +
                     "  - For deadlines: snooze <index> <newTime>\n" +
                     "  - For events: snooze <index> <newFrom> <newTo>";
         }
         return response;
     }
 
-    private int getIndex(String cmd) throws NumberFormatException, ArrayIndexOutOfBoundsException {
-        return Integer.parseInt(cmd.split(" ")[1]) - 1;
+    private int getIndex(String cmd) throws NumberFormatException, VeraException {
+        try {
+            return Integer.parseInt(cmd.split(" ")[1]) - 1;
+        } catch (ArrayIndexOutOfBoundsException e) {
+            throw new VeraException("please enter index that you want to work on, use <command> <index> " +
+                    "or find <keywords>");
+        }
     }
 
     /**
@@ -158,7 +164,8 @@ public class Vera {
      */
     public String getResponse(String input) {
         try {
-            String response = processCommand(input);
+            String trimmedInput = input.trim();
+            String response = processCommand(trimmedInput);
             storage.saveToFile(list);
             return response;
         } catch (VeraException e) {

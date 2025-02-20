@@ -24,8 +24,10 @@ public class Event extends Task {
      */
     public Event(String description, String from, String to) throws VeraException {
         super(description);
-        this.from = formatDateTime(from);
-        this.to = formatDateTime(to);
+        if (isFromBeforeTo(formatDateTime(from), formatDateTime(to))) {
+            this.from = formatDateTime(from);
+            this.to = formatDateTime(to);
+        }
     }
 
     private LocalDateTime formatDateTime(String dt) throws VeraException {
@@ -43,9 +45,21 @@ public class Event extends Task {
      * @param newFrom Updated From time.
      * @param newTo Udated To time.
      */
-    public void snooze(String newFrom, String newTo) {
-        this.from = LocalDateTime.parse(newFrom, DateTimeFormatter.ofPattern("yyyy-MM-dd HHmm"));
-        this.to = LocalDateTime.parse(newTo, DateTimeFormatter.ofPattern("yyyy-MM-dd HHmm"));
+    public void snooze(String newFrom, String newTo) throws VeraException {
+        LocalDateTime from = formatDateTime(newFrom);
+        LocalDateTime to = formatDateTime(newTo);
+        if (isFromBeforeTo(from, to)) {
+            this.from = LocalDateTime.parse(newFrom, DateTimeFormatter.ofPattern("yyyy-MM-dd HHmm"));
+            this.to = LocalDateTime.parse(newTo, DateTimeFormatter.ofPattern("yyyy-MM-dd HHmm"));
+        }
+    }
+
+    private boolean isFromBeforeTo(LocalDateTime from, LocalDateTime to) throws VeraException {
+        if (from.isBefore(to)) {
+            return true;
+        } else {
+            throw new VeraException("from datetime should be before to datetime");
+        }
     }
 
     /**
