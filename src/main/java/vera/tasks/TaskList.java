@@ -41,22 +41,27 @@ public class TaskList {
         }
         String first = part[0];
         Task task;
-        switch (first) {
-        case "todo":
-            task = new Todo(part[1]);
-            break;
-        case "deadline":
-            String[] partDL = part[1].split("/by ");
-            task = new Deadline(partDL[0], partDL[1]);
-            break;
-        case "event":
-            String[] partEV = part[1].split("/");
-            String from = partEV[1].split(" ", 2)[1];
-            String to = partEV[2].split(" ", 2)[1];
-            task = new Event(partEV[0], from, to);
-            break;
-        default:
-            throw new VeraException("I'm sorry, I can't get you, please try with command + description");
+        try {
+            switch (first) {
+            case "todo":
+                task = new Todo(part[1]);
+                break;
+            case "deadline":
+                String[] partDL = part[1].split("/by ");
+                task = new Deadline(partDL[0], partDL[1]);
+                break;
+            case "event":
+                String[] partEV = part[1].split("/");
+                String from = partEV[1].split(" ", 2)[1];
+                String to = partEV[2].split(" ", 2)[1];
+                task = new Event(partEV[0], from, to);
+                break;
+            default:
+                throw new VeraException("I'm sorry, I can't get you, please try with command + description");
+            }
+        } catch (ArrayIndexOutOfBoundsException e) {
+            throw new VeraException("\nfor deadline use: deadline <task> /by <date time> \n" +
+                    "for event use: event <task> /from <date time>/to <date time>");
         }
         list.add(task);
         return addTaskResponse(task);
