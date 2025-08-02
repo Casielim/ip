@@ -1,26 +1,121 @@
-# Duke project template
+# Vera User Guide
+![User Interface](Ui.png)
 
-This is a project template for a greenfield Java project. It's named after the Java mascot _Duke_. Given below are instructions on how to use it.
+Vera is a text-based chatbot that helps you manage tasks effortlessly. It supports adding, deleting, marking, unmarking, and searching for tasks while ensuring persistent storage.
 
-## Setting up in Intellij
+## Features
+### 1. List all tasks
+Displays the current list of tasks.
 
-Prerequisites: JDK 17, update Intellij to the most recent version.
+**Command:**
+`list`
 
-1. Open Intellij (if you are not in the welcome screen, click `File` > `Close Project` to close the existing project first)
-1. Open the project into Intellij as follows:
-   1. Click `Open`.
-   1. Select the project directory, and click `OK`.
-   1. If there are any further prompts, accept the defaults.
-1. Configure the project to use **JDK 17** (not other versions) as explained in [here](https://www.jetbrains.com/help/idea/sdk.html#set-up-jdk).<br>
-   In the same dialog, set the **Project language level** field to the `SDK default` option.
-1. After that, locate the `src/main/java/Duke.java` file, right-click it, and choose `Run Duke.main()` (if the code editor is showing compile errors, try restarting the IDE). If the setup is correct, you should see something like the below as the output:
-   ```
-   Hello from
-    ____        _        
-   |  _ \ _   _| | _____ 
-   | | | | | | | |/ / _ \
-   | |_| | |_| |   <  __/
-   |____/ \__,_|_|\_\___|
-   ```
+**Expected Output:**
+```
+Here are the tasks in your list:
+  1.[T][ ] read book
+  2.[D][ ] return book (by: Feb 01 2025 1159pm)
+  3.[E][ ] project meeting (from: Jan 29 2025 0400pm to: Jan 29 2025 0600pm)
+  4.[T][ ] join sports club
+  5.[T][ ] borrow book
+```  
+Symbol for each task:  
+todo task: [T] , deadline task: [D], event task: [E]
 
-**Warning:** Keep the `src\main\java` folder as the root folder for Java files (i.e., don't rename those folders or move Java files to another folder outside of this folder path), as this is the default location some tools (e.g., Gradle) expect to find Java files.
+### 2. Add a todo task
+Adds a Todo task to the list.  
+**Command:**   
+format: `todo` + `description`
+Eg. `todo read book`
+
+**Expected Output:**
+```
+Got it. I've added this task:
+   [T][ ] read book
+Now you have 1 tasks in the list.
+```
+
+### 3. Add a Deadline task
+Adds a Deadline task to the list.  
+**Command:**  
+format: `deadline` + `description` + `/by` + `YYYY-MM-DD HHmm`  
+Eg. `deadline return book /by 2025-02-01 1159`  
+
+**Expected Output:**
+```
+Got it. I've added this task:
+   [D][ ] return book (by: Feb 01 2025 1159pm)
+Now you have 2 tasks in the list.
+```
+
+### 4. Add a Event task
+Adds an Event task to the list.  
+**Command:**  
+format: `event` + `description` + `/from` + `YYYY-MM-DD HHmm` + `/by` + `YYYY-MM-DD HHmm`  
+Eg. `event project meeting /from 2025-01-29 1600/to 2025-01-29 1800`
+
+**Expected Output:**
+```
+Got it. I've added this task:
+  [E][ ] project meeting (from: Jan 29 2025 0400pm to: Jan 29 2025 0600pm)
+Now you have 3 tasks in the list.
+```
+
+### 5. Mark / Unmark task
+Marks a specified task as completed or not completed.  
+**Command:**  
+format: `mark` + `index` or `unmark` + `index`  
+Eg. `mark 1`, `unmark 2`  
+
+Task marked will be shown with [X] in the list.
+Eg. `list`  
+
+**Expected Output:**  
+```
+Here are the tasks in your list:
+  1.[T][X] read book
+  2.[D][ ] return book (by: Feb 01 2025 1159pm)  
+```
+
+### 6. Delete task
+Removes a task from the list.  
+**Command:**  
+format: `delete` + `index`  
+Eg. `delete 1`  
+
+### 7. Find task
+Searches for tasks that match a **keyword**.  
+
+**Command:**  
+format: `find` + `keyword`  
+Eg. `find book`
+
+**Expected Output:**  
+```
+Here are the matching tasks in your list:
+1. [T][ ] read book
+2. [D][ ] return book (by: Feb 01 2025 1159pm)  
+```
+
+### 8. Snooze task
+Postpones a **Deadline** or reschedules an **Event**.  
+
+**Command:**  
+To snooze deadline task: `snooze` + `index` + `YYYY-MM-DD HHmm`  
+To snooze event task: `snooze` + `index` + `YYYY-MM-DD HHmm` + `YYYY-MM-DD HHmm`  
+
+Eg. `snooze 2 2025-02-03 1122`, `snooze 3 2025-04-13 1000 2025-04-13 1700`
+
+**Expected Output:**   
+```
+Event task rescheduled to: from Apr 13 2025 1000 to Apr 13 2025 1700
+```
+
+### 9. Close window
+**Command:**
+`bye`
+
+## Additional Information
+- Vera automatically **saves your tasks** after each command.
+- Tasks are loaded from the saved file when Vera starts.
+- Dates and times should be provided in **YYYY-MM-DD HHMM** format.
