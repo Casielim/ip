@@ -1,5 +1,5 @@
 # Vera User Guide
-![User Interface](Ui.png)
+<img width="957" height="563" alt="Ui" src="https://github.com/user-attachments/assets/5b0bac71-d82d-4001-838c-0e6293eeeee0" />
 
 Vera is a text-based chatbot that helps you manage tasks effortlessly. It supports adding, deleting, marking, unmarking, and searching for tasks while ensuring persistent storage.
 
